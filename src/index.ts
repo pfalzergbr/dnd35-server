@@ -4,10 +4,14 @@ import 'reflect-metadata';
 import { buildSchema } from 'type-graphql';
 import { connect } from 'mongoose';
 
+
 import keys from './config/keys';
 
 //Resolvers
 import { UserResolver } from './resolvers/User'
+
+//Models
+import { UserModel } from './entities/Users';
 
 const main = async () => {
   const schema = await buildSchema({
@@ -33,3 +37,5 @@ const main = async () => {
 
 main().catch(error => console.log(error, 'error'))
 
+// const me = new UserModel({email: 'jon.snow@nightswatch.gov', password:'supersecrethashedstuff'})
+// me.save()
