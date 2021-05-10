@@ -11,7 +11,7 @@ import keys from './config/keys';
 import { UserResolver } from './resolvers/User'
 
 //Models
-import { UserModel } from './entities/Users';
+// import { UserModel } from './entities/Users';
 
 const main = async () => {
   const schema = await buildSchema({
