@@ -17,7 +17,7 @@ const main = async () => {
   const schema = await buildSchema({
     resolvers: [ UserResolver],
     emitSchemaFile: true,
-    validate: false,
+    validate: true,
   });
 
   const mongoose = await connect(keys.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });

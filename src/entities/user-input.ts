@@ -9,8 +9,11 @@ export class UserInput implements Partial<User> {
   @IsEmail()
   email!: String;
 
-  @Matches(/^(?=.[A-Za-z])(?=.\d)(?=.[@$!%#?&])[A-Za-z\d@$!%*#?&]{8,}$/)
+  @Matches(/^(?=.[A-Za-z])(?=.\d)(?=.[@$!%#?&])[A-Za-z\d@$!%*#?&]{8,}$/, {
+    message:
+      'Password needs to include an uppercase and lowercase letter, number and symbol',
+  })
   @Length(8)
   @Field()
-  password!: String
+  password!: String;
 }

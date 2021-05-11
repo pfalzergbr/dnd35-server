@@ -17,7 +17,11 @@ export class UserResolver {
       email,
       password,
     });
-    await user.save();
+    try {
+      await user.save();
+    } catch (error) {
+      console.log('Something went wrong here')
+    }
     return user;
   }
 }
