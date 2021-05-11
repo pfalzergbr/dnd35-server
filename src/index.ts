@@ -3,6 +3,7 @@ import Express from 'express';
 import 'reflect-metadata';
 import { buildSchema } from 'type-graphql';
 import { connect } from 'mongoose';
+import cors from 'cors';
 
 
 import keys from './config/keys';
@@ -26,6 +27,7 @@ const main = async () => {
 
   const server = new ApolloServer({ schema });
   const app = Express();
+  app.use(cors())
   server.applyMiddleware({ app });
   app.listen({ port: keys.PORT }, () => {
     console.log(
