@@ -5,7 +5,7 @@ import { buildSchema } from 'type-graphql';
 import { connect } from 'mongoose';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
-import cookieParser from 'cookie-parser'
+import cookieParser from 'cookie-parser';
 import keys from './config/keys';
 
 //Resolvers
@@ -26,25 +26,24 @@ const main = async () => {
 
   const server = new ApolloServer({
     schema,
-    context: ({req, res}) => ({req, res})
+    context: ({ req, res }) => ({ req, res }),
   });
 
-
   const app = Express();
-  app.use(cors({
-    credentials: true,
-    origin: keys.FRONTEND_ORIGIN
-  }));
-  app.use(cookieParser())
-  app.use((req: any , _, next) => {
-    try {
-      const user = jwt.verify(req.cookies.jwt, keys.JWT_SECRET)
-      req.user = user
-    } catch (error) {
-      console.log(error)
+  app.use(
+    cors({
+      credentials: true,
+      origin: keys.FRONTEND_ORIGIN,
+    })
+  );
+  app.use(cookieParser());
+  app.use((req: any, _, next) => {
+    if (req.cookies.jwt) {
+      const user = jwt.verify(req.cookies.jwt, keys.JWT_SECRET);
+      req.user = user;
     }
     return next();
-  })
+  });
 
   server.applyMiddleware({ app });
   app.listen({ port: keys.PORT }, () => {

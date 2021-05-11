@@ -18,9 +18,13 @@ const cookieOptions = {
 @Resolver()
 export class UserResolver {
   @Query(() => User)
-  async getUserByEmail(@Arg('email') email: string, @Ctx() {req}: ApolloContext ) {
+  async getUser(@Ctx() {req}: ApolloContext ) {
     console.log('user: ', req.user)
-    return await UserModel.findOne({ email });
+    try {
+      return await UserModel.findOne({ email:req.user.email });
+    } catch (error) {
+      throw new Error('User not found')
+    }
   }
 
   @Query(() => User)

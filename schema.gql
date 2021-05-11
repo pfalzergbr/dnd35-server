@@ -8,7 +8,7 @@ type Mutation {
 }
 
 type Query {
-  getUserByEmail(email: String!): User!
+  getUser: User!
   login(data: UserInput!): User!
 }
 
