@@ -19,7 +19,6 @@ const cookieOptions = {
 export class UserResolver {
   @Query(() => User)
   async getUser(@Ctx() {req}: ApolloContext ) {
-    console.log('user: ', req.user)
     try {
       return await UserModel.findOne({ email:req.user.email });
     } catch (error) {
