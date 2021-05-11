@@ -9,6 +9,7 @@ type Mutation {
 
 type Query {
   getUserByEmail(email: String!): User!
+  login(data: UserInput!): Boolean!
 }
 
 """User model"""
