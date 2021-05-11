@@ -8,15 +8,23 @@ import keys from '../config/keys'
 import { ApolloContext } from '../typings/context';
 
 
+const cookieOptions = {
+  httpOnly: true,
+  maxAge: 1000 * 60 * 60 * 24 * 7,
+  secure: process.env.NODE_ENV === 'production'
+  // domain: 'website.com
+}
+
 @Resolver()
 export class UserResolver {
   @Query(() => User)
-  async getUserByEmail(@Arg('email') email: string) {
+  async getUserByEmail(@Arg('email') email: string, @Ctx() {req}: ApolloContext ) {
+    console.log('user: ', req.user)
     return await UserModel.findOne({ email });
   }
 
-  @Query(() => Boolean)
-  async login(@Arg('data') {email, password}: UserInput, @Ctx() {res}: ApolloContext ): Promise<Boolean>{
+  @Query(() => User)
+  async login(@Arg('data') {email, password}: UserInput, @Ctx() {res}: ApolloContext ): Promise<User>{
     const user = await UserModel.findOne({email})
     if (!user){
       throw new Error('We cannot find this user. Please check the email.')
@@ -25,19 +33,14 @@ export class UserResolver {
     if (!match) {
       throw new Error('Incorrect password. Please try again')
     }
-    const token = jwt.sign({id: user.id, email: user.email}, keys.JWT_SECRET )
-    res.cookie('jwt', token, {
-      httpOnly: true,
-      // secure: true
-      // domain: 'website.com
-    })
-    console.log(res)
-    return true
+    const token = jwt.sign({id: user.id, email: user.email}, keys.JWT_SECRET, {expiresIn: "7d"} )
+    res.cookie('jwt', token, cookieOptions)
+    return user
   }
 
 
   @Mutation(() => User)
-  async createUser(@Arg('data') { email, password }: UserInput): Promise<User> {
+  async createUser(@Arg('data') { email, password }: UserInput, @Ctx() {res}: ApolloContext): Promise<User> {
     const hashedPassword = await bcrypt.hash(password as string, 10)
     const user = new UserModel({
       _id: mongoose.Types.ObjectId(),
@@ -49,6 +52,8 @@ export class UserResolver {
     } catch (error) {
       throw new Error('Something went wrong')
     }
+    const token = jwt.sign({id: user.id, email: user.email}, keys.JWT_SECRET, {expiresIn: "7d"} )
+    res.cookie('jwt', token, cookieOptions)
     return user;
   }
 }

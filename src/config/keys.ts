@@ -1,8 +1,9 @@
 export interface Keys {
   COOKIE_KEY: string;
-  JWT_SECRET: string
-  PORT: number
-  MONGO_URI: string
+  FRONTEND_ORIGIN: string;
+  JWT_SECRET: string;
+  PORT: number;
+  MONGO_URI: string;
 }
 
 let keys: Keys;
