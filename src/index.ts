@@ -33,7 +33,7 @@ const main = async () => {
   });
 
   const corsOptions: cors.CorsOptions = {
-    origin: ['https://dnd-legacy.netlify.app/', 'http://localhost:3000'],
+    origin: ['https://dnd-legacy.netlify.app', 'http://localhost:3000'],
     credentials: true,
     optionsSuccessStatus: 200
   }
