@@ -37,7 +37,7 @@ const main = async () => {
   app.use(
     cors(
       {
-      origin: [keys.FRONTEND_ORIGIN, 'https://dnd-legacy.netlify.app/', 'https://dnd-legacy.netlify.app'],
+      origin: keys.FRONTEND_ORIGIN,
       credentials: true,
     }
     )
