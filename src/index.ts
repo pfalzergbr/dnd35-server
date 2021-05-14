@@ -37,7 +37,7 @@ const main = async () => {
   app.use(
     cors(
       {
-      origin: keys.FRONTEND_ORIGIN,
+      origin: [keys.FRONTEND_ORIGIN],
       credentials: true,
     }
     )
