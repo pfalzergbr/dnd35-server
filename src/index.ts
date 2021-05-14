@@ -35,16 +35,19 @@ const main = async () => {
   //Set up Express App
   const app = Express();
   app.use(
-    cors({
+    cors(
+      {
       origin: [keys.FRONTEND_ORIGIN],
       credentials: true,
-    })
+    }
+    )
   );
   app.use(cookieParser());
   //Middleware decoding jwt cookies
   app.use((req: any, _, next) => {
     if (req.cookies.jwt) {
       const user = jwt.verify(req.cookies.jwt, keys.JWT_SECRET);
+      console.log(req.headers)
       req.user = user;
     }
     return next();
