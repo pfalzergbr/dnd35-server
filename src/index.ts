@@ -36,8 +36,8 @@ const main = async () => {
   const app = Express();
   app.use(
     cors({
+      origin: [keys.FRONTEND_ORIGIN],
       credentials: true,
-      origin: keys.FRONTEND_ORIGIN,
     })
   );
   app.use(cookieParser());
@@ -51,7 +51,7 @@ const main = async () => {
   });
 
   // Connect Express and Apollo
-  server.applyMiddleware({ app });
+  server.applyMiddleware({ app, cors: false });
 
   app.listen({ port: keys.PORT }, () => {
     console.log(
