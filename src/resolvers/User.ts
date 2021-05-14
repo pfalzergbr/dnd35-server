@@ -11,8 +11,9 @@ import { ApolloContext } from '../typings/context';
 const cookieOptions = {
   httpOnly: true,
   maxAge: 1000 * 60 * 60 * 24 * 7,
-  secure: process.env.NODE_ENV === 'production'
-  // domain: 'website.com
+  secure: process.env.NODE_ENV === 'production',
+  // domain: keys.FRONTEND_ORIGIN,
+  sameSite: false
 }
 
 @Resolver()
