@@ -32,16 +32,15 @@ const main = async () => {
     context: ({ req, res }) => ({ req, res }),
   });
 
+  const corsOptions: cors.CorsOptions = {
+    origin: ['https://dnd-legacy.netlify.app/', 'http://localhost:3000'],
+    credentials: true,
+    optionsSuccessStatus: 200
+  }
+
   //Set up Express App
   const app = Express();
-  app.use(
-    cors(
-      {
-      origin: [keys.FRONTEND_ORIGIN],
-      credentials: true,
-    }
-    )
-  );
+  app.use(cors(corsOptions));
   app.use(cookieParser());
   //Middleware decoding jwt cookies
   app.use((req: any, _, next) => {
