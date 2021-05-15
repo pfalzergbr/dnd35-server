@@ -46,7 +46,7 @@ export class UserResolver {
 
   @Query(() => Boolean)
   async logout(@Ctx() {res}: ApolloContext){
-    res.clearCookie('jwt')
+    res.clearCookie('jwt', cookieOptions)
     return true
   }
 
