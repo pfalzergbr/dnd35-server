@@ -12,7 +12,7 @@ const cookieOptions = {
   httpOnly: true,
   maxAge: 1000 * 60 * 60 * 24 * 7,
   secure: process.env.NODE_ENV === 'production',
-  sameSite: false
+  sameSite: true
 }
 
 
@@ -41,6 +41,12 @@ export class UserResolver {
     const token = jwt.sign({id: user.id, email: user.email}, keys.JWT_SECRET, {expiresIn: "7d"} )
     res.cookie('jwt', token, cookieOptions)
     return user
+  }
+
+  @Query(() => Boolean)
+  async logout(@Ctx() {res}: ApolloContext){
+    res.clearCookie('jwt')
+    return true
   }
 
 
