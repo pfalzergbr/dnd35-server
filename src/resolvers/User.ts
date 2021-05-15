@@ -43,6 +43,12 @@ export class UserResolver {
     return user
   }
 
+  @Query(() => Boolean)
+  async logout(@Ctx() {res}: ApolloContext){
+    res.clearCookie('jwt')
+    return true
+  }
+
 
   @Mutation(() => User)
   async createUser(@Arg('data') { email, password }: UserInput, @Ctx() {res}: ApolloContext): Promise<User> {

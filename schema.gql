@@ -10,6 +10,7 @@ type Mutation {
 type Query {
   getUser: User!
   login(data: UserInput!): User!
+  logout: Boolean!
 }
 
 """User model"""
