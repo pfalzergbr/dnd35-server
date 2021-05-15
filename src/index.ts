@@ -46,7 +46,6 @@ const main = async () => {
   app.use((req: any, _, next) => {
     if (req.cookies.jwt) {
       const user = jwt.verify(req.cookies.jwt, keys.JWT_SECRET);
-      console.log(req.headers)
       req.user = user;
     }
     return next();
