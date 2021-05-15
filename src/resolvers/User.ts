@@ -12,7 +12,6 @@ const cookieOptions = {
   httpOnly: true,
   maxAge: 1000 * 60 * 60 * 24 * 7,
   secure: process.env.NODE_ENV === 'production',
-  // domain: keys.FRONTEND_ORIGIN,
   sameSite: false
 }
 
@@ -45,6 +44,10 @@ export class UserResolver {
 
   @Mutation(() => User)
   async createUser(@Arg('data') { email, password }: UserInput, @Ctx() {res}: ApolloContext): Promise<User> {
+    const existingUser = await UserModel.findOne({email})
+    if (existingUser){
+      throw new Error('This e-mail address is already registered. Please use log in instead.')
+    }
     const hashedPassword = await bcrypt.hash(password as string, 10)
     const user = new UserModel({
       _id: mongoose.Types.ObjectId(),

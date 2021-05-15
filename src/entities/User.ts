@@ -9,7 +9,7 @@ export class User extends TimeStamps {
   _id!: mongoose.Types.ObjectId
 
   @Field()
-  @prop({required: true})
+  @prop({required: true, unique: true})
   email!: String;
 
   // @Field()
