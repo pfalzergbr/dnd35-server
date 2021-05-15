@@ -8,7 +8,7 @@ export class UserInput implements Partial<User> {
   @IsEmail()
   email!: String;
 
-  @Matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, {
+  @Matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[£"'`_+-=@$!%*#?&|,.<>(){}\\[\]])[A-Za-z\d£@"'`_+-=$!%*#?&|,.<>()\\{}[\]]{8,}$/, {
     message: 'Password needs to include a symbol',
   })
   @Length(8)

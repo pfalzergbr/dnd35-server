@@ -15,13 +15,15 @@ const cookieOptions = {
   sameSite: false
 }
 
+
 @Resolver()
 export class UserResolver {
-  @Query(() => User)
+  @Query(() => User )
   async getUser(@Ctx() {req}: ApolloContext ) {
     try {
       return await UserModel.findOne({ email:req.user.email });
     } catch (error) {
+      // return { message: 'User is not registered'}
       throw new Error('User not found')
     }
   }
