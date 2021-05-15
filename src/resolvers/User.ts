@@ -6,13 +6,14 @@ import { User, UserModel } from '../entities/User';
 import { UserInput } from '../entities/user-input';
 import keys from '../config/keys'
 import { ApolloContext } from '../typings/context';
+import { CookieOptions } from 'express';
 
 
-const cookieOptions = {
+const cookieOptions: CookieOptions = {
   httpOnly: true,
   maxAge: 1000 * 60 * 60 * 24 * 7,
   secure: process.env.NODE_ENV === 'production',
-  sameSite: true
+  sameSite: 'none'
 }
 
 
