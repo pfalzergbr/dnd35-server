@@ -3,7 +3,20 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+"""Base Character model"""
+type Character {
+  id: ID!
+  isCompleted: Boolean!
+  name: String!
+  ownerId: ID!
+}
+
+input CharacterInput {
+  name: String!
+}
+
 type Mutation {
+  createCharacter(characterData: CharacterInput!): Character!
   createUser(data: UserInput!): User!
 }
 

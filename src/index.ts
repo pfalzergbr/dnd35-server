@@ -10,11 +10,12 @@ import keys from './config/keys';
 
 //Resolvers
 import { UserResolver } from './resolvers/User';
+import { CharacterResolver } from './resolvers/Character';
 
 const main = async () => {
   // Schema and Resolvers for GraphQL
   const schema = await buildSchema({
-    resolvers: [UserResolver],
+    resolvers: [UserResolver, CharacterResolver],
     emitSchemaFile: true,
     validate: true,
   });
@@ -33,7 +34,7 @@ const main = async () => {
   });
 
   const corsOptions: cors.CorsOptions = {
-    origin: ['https://35wizards.netlify.app/', 'http://localhost:3000'],
+    origin: ['https://35wizards.netlify.app', 'http://localhost:3000'],
     credentials: true,
     optionsSuccessStatus: 200
   }
