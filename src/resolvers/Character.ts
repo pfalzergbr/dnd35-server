@@ -1,44 +1,70 @@
-import { mongoose } from "@typegoose/typegoose";
-import { Mutation, Resolver, Ctx, Arg } from "type-graphql";
-import { Character, CharacterModel} from '../entities/Character'
-import { CharacterInput } from "../entities/character-inputs";
-import { UserModel } from "../entities/User";
-import { ApolloContext } from "../typings/context";
-
+import { mongoose } from '@typegoose/typegoose';
+import { Mutation, Resolver, Ctx, Arg } from 'type-graphql';
+import { Character, CharacterModel } from '../entities/Character';
+import { CharacterInput } from '../entities/character-inputs';
+import { UserModel } from '../entities/User';
+import { ApolloContext } from '../typings/context';
 
 @Resolver()
 export class CharacterResolver {
   @Mutation(() => Character)
-  async createCharacter(@Arg('characterData') {name}: CharacterInput, @Ctx() {req}: ApolloContext) {
+  async createCharacter(
+    @Arg('characterData') { name }: CharacterInput,
+    @Ctx() { req }: ApolloContext
+  ) {
     if (!req.user) {
-      throw new Error('Unauthorized. Please log in to create a character')
+      throw new Error('Unauthorized. Please log in to create a character');
     }
-    const session = await mongoose.startSession()
-    session.startTransaction()
-    const user = await UserModel.findOne({_id: req.user.id}).session(session)
-    if (!user){
-      throw new Error('User not found')
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    const user = await UserModel.findOne({ _id: req.user.id }).session(session);
+    if (!user) {
+      throw new Error('User not found');
     }
     const character = new CharacterModel({
       _id: mongoose.Types.ObjectId(),
-      name, 
+      name,
       ownerId: req.user.id,
-      isCompleted: false  
-    })
+      isCompleted: false,
+    });
     const characterLink = {
       characterId: character._id,
       name,
       race: null,
       class: null,
-      level: 1
+      level: 1,
+    };
+    user.characters.push(characterLink);
+    await character.save({ session: session });
+    await user.save({ session: session });
+    await session.commitTransaction();
+    session.endSession();
+    return character;
+  }
+
+  @Mutation(() => String)
+  async deleteCharacter(@Arg('id') id: string, @Ctx() { req }: ApolloContext) {
+    if (!req.user) {
+      throw new Error('Unauthorized. Please log in.');
     }
-    user.characters.push(characterLink)
-    console.log(character)
-    await character.save({session: session})
-    console.log(user)
-    await user.save({session: session})
-    await session.commitTransaction()
-    session.endSession()
-    return character
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    const user = await UserModel.findOne({ _id: req.user.id }).session(session);
+    if (!user) {
+      throw new Error('User not found');
+    }
+    try {
+      await CharacterModel.findOneAndDelete({ _id: id }).session(session);
+    } catch (error) {
+      throw new Error('Character not found')      
+    }
+    console.log(mongoose.Types.ObjectId(id), user.characters[0].characterId)
+    user.characters = user.characters.filter(
+      character => id !== character.characterId.toString()
+    );
+    await user.save({ session });
+    await session.commitTransaction();
+    session.endSession;
+    return id;
   }
 }

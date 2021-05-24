@@ -27,6 +27,7 @@ type CharacterLink {
 type Mutation {
   createCharacter(characterData: CharacterInput!): Character!
   createUser(data: UserInput!): User!
+  deleteCharacter(id: String!): String!
 }
 
 type Query {
