@@ -1,5 +1,5 @@
 import { mongoose } from '@typegoose/typegoose';
-import { Mutation, Resolver, Ctx, Arg } from 'type-graphql';
+import { Mutation, Query, Resolver, Ctx, Arg } from 'type-graphql';
 import { Character, CharacterModel } from '../entities/Character';
 import { CharacterInput } from '../entities/character-inputs';
 import { UserModel } from '../entities/User';
@@ -7,6 +7,18 @@ import { ApolloContext } from '../typings/context';
 
 @Resolver()
 export class CharacterResolver {
+  @Query(() => Character)
+  async getCharacterById(
+    @Arg('id') id : string,
+    @Ctx() { req }: ApolloContext
+  ) {
+    if (!req.user) {
+      throw new Error('Unauthorized. Please log in to create a character');
+    }
+    const character = await CharacterModel.findOne({_id: id, ownerId: req.user.id})
+    return character
+  }
+
   @Mutation(() => Character)
   async createCharacter(
     @Arg('characterData') { name }: CharacterInput,
