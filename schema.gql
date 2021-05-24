@@ -15,6 +15,15 @@ input CharacterInput {
   name: String!
 }
 
+"""Short character """
+type CharacterLink {
+  characterId: ID!
+  class: String
+  level: Float!
+  name: String!
+  race: String
+}
+
 type Mutation {
   createCharacter(characterData: CharacterInput!): Character!
   createUser(data: UserInput!): User!
@@ -28,6 +37,7 @@ type Query {
 
 """User model"""
 type User {
+  characters: [CharacterLink!]!
   email: String!
   id: ID!
 }
