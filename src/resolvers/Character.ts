@@ -33,6 +33,9 @@ export class CharacterResolver {
     if (!user) {
       throw new Error('User not found');
     }
+    if (user.characters.length >=5 ){
+      throw new Error("You have the maximum number of 5 characters. Delete one to add a new one")
+    }
     const character = new CharacterModel({
       _id: mongoose.Types.ObjectId(),
       name,
