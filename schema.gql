@@ -29,6 +29,7 @@ type CharacterLink {
   isCompleted: Boolean!
   level: Float!
   name: String!
+  nextLink: String!
   race: String
 }
 

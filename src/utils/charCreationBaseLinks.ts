@@ -1,35 +1,35 @@
 export const charCreationBaseLinks = [{ 
   name: 'Race',
-  to: '/create-character/choose-race',
+  to: '/choose-race',
   active: true
 },
 { 
   name: 'Class',
-  to: '/create-character/choose-class',
+  to: '/choose-class',
   active: false
 },
 { 
   name: 'Abilities',
-  to: '/create-character/abilities',
+  to: '/abilities',
   active: false
 },
 { 
   name: 'Skills',
-  to: '/create-character/skills',
+  to: '/skills',
   active: false
 },
 { 
   name: 'Feats',
-  to: '/create-character/choose-feats',
+  to: '/choose-feats',
   active: false
 },
 { 
   name: 'Description',
-  to: '/create-character/description',
+  to: '/description',
   active: false
 },
 { 
   name: 'Equipment',
-  to: '/create-character/equipment',
+  to: '/equipment',
   active: false
 },]

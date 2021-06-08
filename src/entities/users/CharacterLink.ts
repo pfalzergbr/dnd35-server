@@ -26,4 +26,8 @@ export class CharacterLink {
   @Field()
   @prop({required: true, default: false})
   isCompleted!: Boolean;
+
+  @Field()
+  @prop({ required: true, default: '/choose-race' })
+  nextLink!: String;
 }

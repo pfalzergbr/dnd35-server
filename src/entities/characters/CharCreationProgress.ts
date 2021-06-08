@@ -1,6 +1,5 @@
-import {  prop } from '@typegoose/typegoose';
-import { ObjectType, Field, } from 'type-graphql';
-
+import { prop } from '@typegoose/typegoose';
+import { ObjectType, Field } from 'type-graphql';
 
 @ObjectType({ description: 'Links for character creation steps' })
 export class LinkControl {
@@ -18,7 +17,7 @@ export class LinkControl {
 @ObjectType({ description: 'Current progress of character generation flow' })
 export class CharCreationProgress {
   @Field()
-  @prop({ required: true, default: '/create-character/choose-race' })
+  @prop({ required: true, default: '/choose-race' })
   nextLink!: String;
 
   @Field(() => [LinkControl])

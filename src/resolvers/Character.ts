@@ -44,7 +44,7 @@ export class CharacterResolver {
       isCompleted: false,
       charCreationProgress: 
       { 
-        nextLink: '/create-character/choose-race',
+        nextLink: '/choose-race',
         links: charCreationBaseLinks
       }
     });
@@ -55,6 +55,7 @@ export class CharacterResolver {
       class: null,
       level: 1,
       isCompleted: false,
+      nextLink: '/choose-race'
     };
     user.characters.push(characterLink);
     await character.save({ session: session });
