@@ -1,32 +1,8 @@
 import { mongoose, prop, getModelForClass } from '@typegoose/typegoose';
 import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
 import { ObjectType, Field, ID } from 'type-graphql';
+import { CharCreationProgress } from './CharCreationProgress';
 
-
-ObjectType({description: 'Links for character creation steps'})
-export class LinkControl {
-  @Field()
-  @prop({required: true})
-  name!: String
-  @Field()
-  @prop({required: true})
-  to!: String
-  @Field()
-  @prop({required: true, default: false})
-  active!: Boolean
-}
-
-
-ObjectType({ description: 'Current progress of character generation flow'})
-export class CharCreationProgress {
-  @Field()
-  @prop({required: true, default: '/create-character/choose-race'})
-  nextLink!: String
-
-  @Field(() => [LinkControl])
-  @prop({required: true})
-  links!: LinkControl[]
-}
 
 
 @ObjectType({ description: 'Base Character model' })
@@ -47,10 +23,10 @@ export class Character extends TimeStamps {
   @prop({ required: true, default: false })
   isCompleted!: Boolean;
 
-  // @Field(() => CharCreationProgress)
-  // @prop({required: true})
-  // charCreationProgress!: CharCreationProgress
-
+  @Field(() => CharCreationProgress)
+  @prop({required: true})
+  @prop()
+  charCreationProgress!: CharCreationProgress;
 }
 
 export const CharacterModel = getModelForClass(Character);

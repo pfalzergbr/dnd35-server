@@ -3,8 +3,15 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+"""Current progress of character generation flow"""
+type CharCreationProgress {
+  links: [LinkControl!]!
+  nextLink: String!
+}
+
 """Base Character model"""
 type Character {
+  charCreationProgress: CharCreationProgress!
   id: ID!
   isCompleted: Boolean!
   name: String!
@@ -23,6 +30,13 @@ type CharacterLink {
   level: Float!
   name: String!
   race: String
+}
+
+"""Links for character creation steps"""
+type LinkControl {
+  active: Boolean!
+  name: String!
+  to: String!
 }
 
 type Mutation {
