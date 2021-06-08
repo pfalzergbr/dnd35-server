@@ -4,6 +4,7 @@ import { Character, CharacterModel } from '../entities/characters/Character';
 import { CharacterInput } from '../entities/characters/character-inputs';
 import { UserModel } from '../entities/users/User';
 import { ApolloContext } from '../typings/context';
+import { charCreationBaseLinks } from '../utils/charCreationBaseLinks';
 
 @Resolver()
 export class CharacterResolver {
@@ -41,6 +42,11 @@ export class CharacterResolver {
       name,
       ownerId: req.user.id,
       isCompleted: false,
+      charCreationProgress: 
+      { 
+        nextLink: '/create-character/choose-race',
+        links: charCreationBaseLinks
+      }
     });
     const characterLink = {
       characterId: character._id,
