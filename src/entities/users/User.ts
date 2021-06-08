@@ -2,7 +2,7 @@ import { ObjectType, Field, ID } from 'type-graphql';
 import { prop, getModelForClass, mongoose } from '@typegoose/typegoose';
 import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
 
-@ObjectType({ description: 'Short character ' })
+@ObjectType({ description: 'Short character reference on user object' })
 export class CharacterLink {
   @Field(() => ID)
   @prop({ required: true })
@@ -23,6 +23,10 @@ export class CharacterLink {
   @Field()
   @prop({required: true, default: 1})
   level!: Number;
+
+  @Field()
+  @prop({required: true, default: false})
+  isCompleted!: Boolean;
 }
 
 @ObjectType({ description: 'User model' })

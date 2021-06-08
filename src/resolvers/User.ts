@@ -2,8 +2,8 @@ import { mongoose } from '@typegoose/typegoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { Resolver, Query, Arg, Mutation, Ctx } from 'type-graphql';
-import { User, UserModel } from '../entities/User';
-import { UserInput } from '../entities/user-input';
+import { User, UserModel } from '../entities/users/User';
+import { UserInput } from '../entities/users/user-input';
 import keys from '../config/keys'
 import { ApolloContext } from '../typings/context';
 import { CookieOptions } from 'express';

@@ -15,10 +15,11 @@ input CharacterInput {
   name: String!
 }
 
-"""Short character """
+"""Short character reference on user object"""
 type CharacterLink {
   characterId: ID!
   class: String
+  isCompleted: Boolean!
   level: Float!
   name: String!
   race: String

@@ -1,8 +1,8 @@
 import { mongoose } from '@typegoose/typegoose';
 import { Mutation, Query, Resolver, Ctx, Arg } from 'type-graphql';
-import { Character, CharacterModel } from '../entities/Character';
-import { CharacterInput } from '../entities/character-inputs';
-import { UserModel } from '../entities/User';
+import { Character, CharacterModel } from '../entities/characters/Character';
+import { CharacterInput } from '../entities/characters/character-inputs';
+import { UserModel } from '../entities/users/User';
 import { ApolloContext } from '../typings/context';
 
 @Resolver()
@@ -48,6 +48,7 @@ export class CharacterResolver {
       race: null,
       class: null,
       level: 1,
+      isCompleted: false,
     };
     user.characters.push(characterLink);
     await character.save({ session: session });

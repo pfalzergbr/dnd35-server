@@ -1,6 +1,6 @@
 import { InputType, Field } from 'type-graphql';
 import { Length } from 'class-validator';
-import { Character } from '../entities/Character'
+import { Character } from './Character'
 
 @InputType()
 export class CharacterInput implements Partial<Character> {
