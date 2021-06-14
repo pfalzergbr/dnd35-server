@@ -15,15 +15,15 @@ export class Character extends TimeStamps {
   @prop({ required: true })
   ownerId!: mongoose.Types.ObjectId;
 
-  @Field()
+  @Field({ description: 'Name of the Character' })
   @prop({ required: true })
   name!: String;
 
-  @Field()
+  @Field({ description: 'Indication if the character is completed' })
   @prop({ required: true, default: false })
   isCompleted!: Boolean;
 
-  @Field(() => CharCreationProgress)
+  @Field(() => CharCreationProgress, { description: 'Character creation progress, and available links for navigating the flow' } )
   @prop({required: true})
   @prop()
   charCreationProgress!: CharCreationProgress;

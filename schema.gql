@@ -11,9 +11,16 @@ type CharCreationProgress {
 
 """Base Character model"""
 type Character {
+  """
+  Character creation progress, and available links for navigating the flow
+  """
   charCreationProgress: CharCreationProgress!
   id: ID!
+
+  """Indication if the character is completed"""
   isCompleted: Boolean!
+
+  """Name of the Character"""
   name: String!
   ownerId: ID!
 }
