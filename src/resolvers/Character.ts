@@ -102,9 +102,13 @@ export class CharacterResolver {
       throw new Error('Unauthorized. Please log in.');
     }
     try {
-      const character = await CharacterModel.findOne({_id: characterId, ownerId: req.user.id})
-      const race = await RaceModel.findOne({_id: raceId})
+      const session = await mongoose.startSession();
+      session.startTransaction();
+
+      const character = await CharacterModel.findOne({_id: characterId, ownerId: req.user.id}).session(session)
+      const race = await RaceModel.findOne({_id: raceId}).session(session)
 //TODO
+
       console.log(race)
 //TODO
       return character

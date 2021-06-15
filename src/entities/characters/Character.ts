@@ -2,7 +2,7 @@ import { mongoose, prop, getModelForClass } from '@typegoose/typegoose';
 import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
 import { ObjectType, Field, ID } from 'type-graphql';
 import { CharCreationProgress } from './CharCreationProgress';
-
+import { CharacterRace } from './CharacterRace';
 
 
 @ObjectType({ description: 'Base Character model' })
@@ -23,10 +23,18 @@ export class Character extends TimeStamps {
   @prop({ required: true, default: false })
   isCompleted!: Boolean;
 
-  @Field(() => CharCreationProgress, { description: 'Character creation progress, and available links for navigating the flow' } )
-  @prop({required: true})
-  @prop()
+  @Field(() => CharCreationProgress, {
+    description:
+      'Character creation progress, and available links for navigating the flow',
+  })
+  @prop({ required: true })
   charCreationProgress!: CharCreationProgress;
+
+  @Field(() => CharacterRace, {
+    description: 'Quick reference for the character race',
+  })
+  @prop()
+  characterRace!: CharacterRace;
 }
 
 export const CharacterModel = getModelForClass(Character);

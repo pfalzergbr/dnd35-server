@@ -15,6 +15,9 @@ type Character {
   Character creation progress, and available links for navigating the flow
   """
   charCreationProgress: CharCreationProgress!
+
+  """Quick reference for the character race"""
+  characterRace: CharacterRace!
   id: ID!
 
   """Indication if the character is completed"""
@@ -38,6 +41,15 @@ type CharacterLink {
   name: String!
   nextLink: String!
   race: String
+}
+
+"""Quick reference for the character race"""
+type CharacterRace {
+  """ObjectId of the character race"""
+  raceId: ID!
+
+  """Name of the race for quick reference"""
+  raceName: String!
 }
 
 """Links for character creation steps"""
