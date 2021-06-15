@@ -3,6 +3,14 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type AbilityModifier {
+  """Name of the ability to modify"""
+  abilityName: String!
+
+  """Value the ability is modified by"""
+  value: Float!
+}
+
 """Current progress of character generation flow"""
 type CharCreationProgress {
   links: [LinkControl!]!
@@ -53,6 +61,14 @@ type CharacterRace {
 
   """Name of the race for quick reference"""
   raceName: String!
+}
+
+type FeatModifier {
+  """ObjectId if the extra feat for more efficient writes"""
+  featId: ID!
+
+  """Name of the extra feat"""
+  featName: String!
 }
 
 type Health {
@@ -106,10 +122,80 @@ type PhysicalStats {
 }
 
 type Query {
+  getAllRaces: [Race!]!
   getCharacterById(id: String!): Character!
+  getRaceById(id: String!): Race!
   getUser: User!
   login(data: UserInput!): User!
   logout: Boolean!
+}
+
+type Race {
+  """Description of the character race"""
+  description: RaceDescription!
+
+  """Favoured class for the individuals of the race"""
+  favouredClass: String!
+  id: ID!
+
+  """Languages typically spoken by the race"""
+  languages: RaceLanguage!
+
+  """Name of the selectable character race"""
+  name: String!
+
+  """Racial modifiers for abilities, skills and feats"""
+  raceModifiers: RaceModifiers!
+
+  """Average size of the characters from this race"""
+  size: String!
+
+  """Special traits for the individuals of the race"""
+  specialTraits: [SpecialTrait!]!
+
+  """Character base land speed"""
+  speed: Float!
+}
+
+type RaceDescription {
+  checksAndSaves: [String!]!
+  generalTraits: [String!]!
+  raceDescription: String!
+}
+
+type RaceLanguage {
+  """Base languages automatically spoken by all characters from this race"""
+  baseLanguages: [String!]!
+
+  """Extra languages the characters of the race can choose from."""
+  extraLanguages: [String!]!
+}
+
+type RaceModifiers {
+  """List of ability modifiers"""
+  abilityModifiers: [AbilityModifier!]!
+
+  """List of extra feats the characters get with this race"""
+  featModifiers: [FeatModifier!]!
+
+  """Skillpoint modifiers"""
+  skillModifiers: SkillModifier!
+}
+
+type SkillModifier {
+  """Extra skill points per new level"""
+  extraLevelSkillPoint: Float!
+
+  """Extra skill points on the first level."""
+  extraStartingSkillPoint: Float!
+}
+
+type SpecialTrait {
+  """Description of the special trait"""
+  traitDescription: String!
+
+  """Name of a special racial trait, or ability"""
+  traitName: String!
 }
 
 type Speed {

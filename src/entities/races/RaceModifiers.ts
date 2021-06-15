@@ -1,5 +1,5 @@
 import { mongoose, prop } from '@typegoose/typegoose';
-import { ObjectType, Field } from 'type-graphql';
+import { ObjectType, Field, ID } from 'type-graphql';
 
 @ObjectType()
 export class AbilityModifier {
@@ -29,7 +29,7 @@ export class FeatModifier {
   @prop()
   featName!: String
  
-  @Field({ description: 'ObjectId if the extra feat for more efficient writes' })
+  @Field(() => ID, { description: 'ObjectId if the extra feat for more efficient writes' })
   @prop()
   featId!: mongoose.Types.ObjectId
 }
