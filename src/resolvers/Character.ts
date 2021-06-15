@@ -2,6 +2,7 @@ import { mongoose } from '@typegoose/typegoose';
 import { Mutation, Query, Resolver, Ctx, Arg } from 'type-graphql';
 import { Character, CharacterModel } from '../entities/characters/Character';
 import { CharacterInput } from '../entities/characters/character-inputs';
+import { RaceModel } from '../entities/races/Race';
 import { UserModel } from '../entities/users/User';
 import { ApolloContext } from '../typings/context';
 import { charCreationBaseLinks } from '../utils/charCreationBaseLinks';
@@ -91,6 +92,26 @@ export class CharacterResolver {
     return id;
   }
 
+  @Mutation(() => Character)
+  async chooseRace(
+    @Arg('characterId') characterId: string,
+    @Arg('raceId') raceId: string,
+    @Ctx() { req }: ApolloContext
+  ){
+    if (!req.user) {
+      throw new Error('Unauthorized. Please log in.');
+    }
+    try {
+      const character = await CharacterModel.findOne({_id: characterId, ownerId: req.user.id})
+      const race = await RaceModel.findOne({_id: raceId})
+//TODO
+      console.log(race)
+//TODO
+      return character
+    } catch (error) {
+      throw new Error('Something went wrong. Plaese try again')
+    }
+  }
   
 
 }
