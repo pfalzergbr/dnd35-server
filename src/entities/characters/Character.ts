@@ -3,6 +3,7 @@ import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
 import { ObjectType, Field, ID } from 'type-graphql';
 import { CharCreationProgress } from './CharCreationProgress';
 import { CharacterRace } from './CharacterRace';
+import { PhysicalStats } from './PhysicalStats';
 
 
 @ObjectType({ description: 'Base Character model' })
@@ -27,7 +28,7 @@ export class Character extends TimeStamps {
     description:
       'Character creation progress, and available links for navigating the flow',
   })
-  @prop({ required: true })
+  @prop({ required: true }) 
   charCreationProgress!: CharCreationProgress;
 
   @Field(() => CharacterRace, {
@@ -35,6 +36,10 @@ export class Character extends TimeStamps {
   })
   @prop()
   characterRace!: CharacterRace;
+
+  @Field(() => PhysicalStats, { description: 'Physical, computed stats of the character. AC, Init, Health and Speed'})
+  @prop()
+  physicalStats!: PhysicalStats
 }
 
 export const CharacterModel = getModelForClass(Character);

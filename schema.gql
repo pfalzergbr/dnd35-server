@@ -26,6 +26,9 @@ type Character {
   """Name of the Character"""
   name: String!
   ownerId: ID!
+
+  """Physical, computed stats of the character. AC, Init, Health and Speed"""
+  physicalStats: PhysicalStats!
 }
 
 input CharacterInput {
@@ -52,6 +55,20 @@ type CharacterRace {
   raceName: String!
 }
 
+type Health {
+  """The characters actual health"""
+  actualHealth: Float!
+
+  """Health point die per level"""
+  healthModifiers: [StatModifier!]!
+
+  """Health point die per level"""
+  healthPerLevel: Float!
+
+  """The characters maximum health"""
+  maximumHealth: Float!
+}
+
 """Links for character creation steps"""
 type LinkControl {
   active: Boolean!
@@ -66,11 +83,21 @@ type Mutation {
   deleteCharacter(id: String!): String!
 }
 
+type PhysicalStats {
+  """Current and maximum health of the Character"""
+  health: Health!
+}
+
 type Query {
   getCharacterById(id: String!): Character!
   getUser: User!
   login(data: UserInput!): User!
   logout: Boolean!
+}
+
+type StatModifier {
+  modifierType: String!
+  modifierValue: Float!
 }
 
 """User model"""
