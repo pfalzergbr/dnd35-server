@@ -2,6 +2,7 @@ import { mongoose } from '@typegoose/typegoose';
 import { Mutation, Query, Resolver, Ctx, Arg } from 'type-graphql';
 import { Character, CharacterModel } from '../entities/characters/Character';
 import { CharacterInput } from '../entities/characters/character-inputs';
+import { CharacterRace } from '../entities/characters/CharacterRace';
 import { RaceModel } from '../entities/races/Race';
 import { UserModel } from '../entities/users/User';
 import { ApolloContext } from '../typings/context';
@@ -107,13 +108,23 @@ export class CharacterResolver {
 
       const character = await CharacterModel.findOne({_id: characterId, ownerId: req.user.id}).session(session)
       const race = await RaceModel.findOne({_id: raceId}).session(session)
+      if (character && race ){
+        const characterRace: CharacterRace = {
+          raceId: race._id, raceName: race.name
+        }
+        character.characterRace = characterRace
+// TODO
+      } else {
+        throw new Error('Data is missing. Please try again.')
+      }
+
 //TODO
 
       console.log(race)
 //TODO
       return character
     } catch (error) {
-      throw new Error('Something went wrong. Plaese try again')
+      throw new Error('Something went wrong. Please try again')
     }
   }
   
