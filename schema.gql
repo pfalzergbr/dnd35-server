@@ -48,6 +48,7 @@ type LinkControl {
 }
 
 type Mutation {
+  chooseRace(characterId: String!, raceId: String!): Character!
   createCharacter(characterData: CharacterInput!): Character!
   createUser(data: UserInput!): User!
   deleteCharacter(id: String!): String!

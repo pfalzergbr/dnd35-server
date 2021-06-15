@@ -5,11 +5,11 @@ import { ObjectType, Field } from "type-graphql";
 
 @ObjectType()
 export class RaceLanguage {
-  @Field({description: 'Base languages automatically spoken by all characters from this race'})
+  @Field(() => [String], {description: 'Base languages automatically spoken by all characters from this race'})
   @prop({required: true})
-  baseLanguages!: [String]
+  baseLanguages!: String[]
 
-  @Field({description: 'Extra languages the characters of the race can choose from.'})
+  @Field(() => [String], {description: 'Extra languages the characters of the race can choose from.'})
   @prop({required: true})
-  extraLanguages!: [String]
+  extraLanguages!: String[]
 }
