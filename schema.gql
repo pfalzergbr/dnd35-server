@@ -69,6 +69,17 @@ type Health {
   maximumHealth: Float!
 }
 
+type Initiative {
+  """Base Initiative of the Character"""
+  baseInitiative: Float!
+
+  """Array of initiative modifiers"""
+  initiativeModifiers: [StatModifier!]!
+
+  """Total Initiative of the Character"""
+  totalInitiative: Float!
+}
+
 """Links for character creation steps"""
 type LinkControl {
   active: Boolean!
@@ -86,6 +97,12 @@ type Mutation {
 type PhysicalStats {
   """Current and maximum health of the Character"""
   health: Health!
+
+  """Characters Initiative value"""
+  initiative: Initiative!
+
+  """Characters Initiative value"""
+  speed: Speed!
 }
 
 type Query {
@@ -93,6 +110,17 @@ type Query {
   getUser: User!
   login(data: UserInput!): User!
   logout: Boolean!
+}
+
+type Speed {
+  """Base land speed of the character"""
+  baseSpeed: Float!
+
+  """Array of speed modifiers"""
+  speedModifiers: [StatModifier!]!
+
+  """Total land speed of the character"""
+  totalSpeed: Float!
 }
 
 type StatModifier {
