@@ -14,7 +14,7 @@
   },
   "size": "medium",
   "speed": 30,
-  "favouredClass": "any",
+  "favouredClass": "any. TODO - Figure out how the hell do I handle this. Probably insert all classes. Note - try not to break frontend",
   "raceModifiers": {
 
     "skillModifiers": {
@@ -29,18 +29,12 @@
       }
     ]
   },
-  "specialTraits": [
-    {
-      "traitName": "",
-      "traitDescription": ""
-    }
-  ],
   "languages": {
     "baseLanguages": [
       "Common"
     ],
     "extraLanguages": [
-      "any - insert all languages here in the future. #fml"
+      "any - insert all languages here in the future, just because. #fml"
     ]
   }
 }

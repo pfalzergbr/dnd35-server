@@ -1,7 +1,7 @@
 import { mongoose, prop, getModelForClass } from '@typegoose/typegoose';
 import { ObjectType, Field, ID } from 'type-graphql';
 import { RaceLanguage } from './RaceLanguages';
-import { SpecialTrait } from './SpecialTrait';
+
 import { RaceModifiers } from './RaceModifiers';
 import { RaceDescription } from './RaceDescription'
 
@@ -34,10 +34,6 @@ export class Race {
   @Field(() => RaceModifiers, { description: 'Racial modifiers for abilities, skills and feats' })
   @prop({ required: true })
   raceModifiers!: RaceModifiers;
-
-  @Field(() => [SpecialTrait], { description: 'Special traits for the individuals of the race' })
-  @prop({ required: true })
-  specialTraits!: SpecialTrait[];
 
   @Field(() => RaceLanguage, {
     description: 'Languages typically spoken by the race',

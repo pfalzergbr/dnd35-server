@@ -1,5 +1,7 @@
 import { prop } from '@typegoose/typegoose';
 import { ObjectType, Field } from 'type-graphql';
+import { SpecialTrait } from './SpecialTrait';
+
 
 @ObjectType()
 export class RaceDescription {
@@ -7,9 +9,9 @@ export class RaceDescription {
   @prop({required: true})
   raceDescription!: String; 
 
-  @Field(() => [String])
+  @Field(() => [SpecialTrait])
   @prop()
-  generalTraits!: String[]; 
+  generalTraits!: SpecialTrait[]
 
   @Field(() => [String])
   @prop()

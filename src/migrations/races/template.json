@@ -1,0 +1,42 @@
+{
+  "_id": {
+    "$oid": "60c9b436b1ff329b9a9667d9"
+  },
+  "name": "",
+  "description": {
+    "raceDescription": "Pointy ears",
+    "generalTraits": [],
+    "checksAndSaves": []
+  },
+  "size": "",
+  "speed": 30,
+  "favouredClass": "",
+  "raceModifiers": {
+    "abilityModifiers": [
+      {
+        "abilityName": "",
+        "value": 1
+      }
+    ],
+    "skillModifiers": {
+      "extraStartingSkillPoint": 4,
+      "extraLevelSkillPoint": 4
+    },
+    "featModifiers": [
+      {
+        "featName": "",
+        "featId": "objectId here"
+      }
+    ]
+  },
+  "specialTraits": [
+    {
+      "traitName": "",
+      "traitDescription": ""
+    }
+  ],
+  "languages": {
+    "baseLanguages": [],
+    "extraLanguages": []
+  }
+}
