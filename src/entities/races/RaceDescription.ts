@@ -3,8 +3,8 @@ import { ObjectType, Field } from 'type-graphql';
 
 @ObjectType()
 export class RaceDescription {
-  @Field()
-  @prop()
+  @Field({description: 'Brief description of the race'})
+  @prop({required: true})
   raceDescription!: String; 
 
   @Field(() => [String])

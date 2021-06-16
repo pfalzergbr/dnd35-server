@@ -1,0 +1,46 @@
+{
+  "_id": {
+    "$oid": ""
+  },
+  "name": "human",
+  "description": {
+    "raceDescription": "Human description comes here.",
+    "generalTraits": [
+      "Medium size",
+      "1 extra feat at 1st level, because humans are quick to master specialized tasks and varied in their talents. ",
+      "4 extra skill points at 1st level and 1 extra skill point at each additional level, since humans are versatile and capable."
+    ],
+    "checksAndSaves": []
+  },
+  "size": "medium",
+  "speed": 30,
+  "favouredClass": "any",
+  "raceModifiers": {
+
+    "skillModifiers": {
+      "extraStartingSkillPoint": 4,
+      "extraLevelSkillPoint": 1
+    },
+    "featModifiers": [
+      {
+        "featName": "",
+        "featId": {
+          "$oid": ""}
+      }
+    ]
+  },
+  "specialTraits": [
+    {
+      "traitName": "",
+      "traitDescription": ""
+    }
+  ],
+  "languages": {
+    "baseLanguages": [
+      "Common"
+    ],
+    "extraLanguages": [
+      "any - insert all languages here in the future. #fml"
+    ]
+  }
+}

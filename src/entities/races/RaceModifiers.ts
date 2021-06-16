@@ -36,15 +36,15 @@ export class FeatModifier {
 
 @ObjectType()
 export class RaceModifiers {
-  @Field(() => [AbilityModifier], { description: 'List of ability modifiers' })
-  @prop({ required: true })
+  @Field(() => [AbilityModifier], { description: 'List of ability modifiers', nullable: true })
+  @prop({ required: false })
   abilityModifiers!: AbilityModifier[];
 
-  @Field(() => SkillModifier, { description: 'Skillpoint modifiers' })
-  @prop({ required: true })
+  @Field(() => SkillModifier, { description: 'Skillpoint modifiers', nullable: true })
+  @prop({ required: false })
   skillModifiers!: SkillModifier;
 
-  @Field(() => [FeatModifier], { description: 'List of extra feats the characters get with this race'})
-  @prop({ required: true })
+  @Field(() => [FeatModifier], { description: 'List of extra feats the characters get with this race', nullable: true})
+  @prop({ required: false })
   featModifiers!:FeatModifier[];
 }
