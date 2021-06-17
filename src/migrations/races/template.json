@@ -5,7 +5,12 @@
   "name": "",
   "description": {
     "raceDescription": "Pointy ears",
-    "generalTraits": [],
+    "generalTraits": [
+      {
+        "traitName": "",
+        "traitDescription": ""
+      }
+    ],
     "checksAndSaves": []
   },
   "size": "",
@@ -29,12 +34,6 @@
       }
     ]
   },
-  "specialTraits": [
-    {
-      "traitName": "",
-      "traitDescription": ""
-    }
-  ],
   "languages": {
     "baseLanguages": [],
     "extraLanguages": []
