@@ -2,40 +2,50 @@
   "_id": {
     "$oid": "60c9b436b1ff329b9a9667d9"
   },
-  "name": "",
+  "name": "half-orc",
   "description": {
     "raceDescription": "Half-orc description here.",
     "generalTraits": [
       {
-        "traitName": "",
-        "traitDescription": ""
+        "traitName": "Darkvision",
+        "traitDescription": "Dwarves can see in the dark up to 60 feet. Darkvision is black and white only, but it is otherwise like normal sight, and dwarves can function just fine with no light at all."
+      },
+      {
+        "traitName": "Orc Blood",
+        "traitDescription": "Orc Blood: For all effects related to race, a half-orc is considered an orc. Half-orcs, for example, are just as vulnerable to special effects that affect orcs as their orc ancestors are, and they can use magic items that are only usable by orcs"
       }
     ],
     "checksAndSaves": []
   },
-  "size": "",
+  "size": "medium",
   "speed": 30,
-  "favouredClass": "",
+  "favouredClass": "barbarian",
   "raceModifiers": {
     "abilityModifiers": [
       {
-        "abilityName": "",
-        "value": 1
-      }
-    ],
-    "skillModifiers": {
-      "extraStartingSkillPoint": 4,
-      "extraLevelSkillPoint": 4
-    },
-    "featModifiers": [
+        "abilityName": "intelligence",
+        "value": -2
+      },
       {
-        "featName": "",
-        "featId": "objectId here"
+        "abilityName": "charisma",
+        "value": -2
+      },
+      {
+        "abilityName": "strength",
+        "value": 2
       }
     ]
   },
   "languages": {
-    "baseLanguages": [],
-    "extraLanguages": []
+    "baseLanguages": [ 
+      "Common", 
+      "Orc"
+    ],
+    "extraLanguages": [
+      "Draconic",
+      "Giant", 
+      "Gnoll", 
+      "Goblin",
+      "Abyssal"]
   }
 }
