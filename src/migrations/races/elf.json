@@ -33,16 +33,6 @@
         "abilityName": "constitution",
         "value": -2
       }
-    ],
-    "skillModifiers": {
-      "extraStartingSkillPoint": 4,
-      "extraLevelSkillPoint": 4
-    },
-    "featModifiers": [
-      {
-        "featName": "",
-        "featId": "objectId here"
-      }
     ]
   },
   "languages": {
