@@ -3,24 +3,22 @@
     "$oid": "60c9b436b1ff329b9a9667d9"
   },
   "name": "halfling",
-  "description": {
-    "raceDescription": "Halfling description comes here",
-    "generalTraits": [
-      {
-        "traitName": "Small",
-        "traitDescription": "As a Small creature, a gnome gains a +1 size bonus to Armor Class, a +1 size bonus on attack rolls, and a +4 size bonus on Hide checks, but he uses smaller weapons than humans use, and his lifting and carrying limits are three-quarters of those of a Medium character."
-      }
-    ],
-    "checksAndSaves": [
-      "+2 racial bonus on Climb, Jump, and Move Silently checks: Halflings are agile, surefooted, and athletic.",
-      "+1 racial bonus on all saving throws: Halflings are surprisingly capable of avoiding mishaps",
-      "+2 morale bonus on saving throws against fear. This bonus stacks with the halfling’s +1 bonus on saving throws in general.",
-      "+1 racial bonus on attack rolls with a thrown weapon and slings: Throwing and slinging stones is a universal sport among halflings, and they develop especially good aim.",
-      "+2 racial bonus on Listen checks: Halflings have keen ears."
-    ]
-  },
+  "description": "Halfling description comes here",
   "size": "small",
   "speed": 20,
+  "generalTraits": [
+    {
+      "traitName": "Small",
+      "traitDescription": "As a Small creature, a gnome gains a +1 size bonus to Armor Class, a +1 size bonus on attack rolls, and a +4 size bonus on Hide checks, but he uses smaller weapons than humans use, and his lifting and carrying limits are three-quarters of those of a Medium character."
+    }
+  ],
+  "checksAndSaves": [
+    "+2 racial bonus on Climb, Jump, and Move Silently checks: Halflings are agile, surefooted, and athletic.",
+    "+1 racial bonus on all saving throws: Halflings are surprisingly capable of avoiding mishaps",
+    "+2 morale bonus on saving throws against fear. This bonus stacks with the halfling’s +1 bonus on saving throws in general.",
+    "+1 racial bonus on attack rolls with a thrown weapon and slings: Throwing and slinging stones is a universal sport among halflings, and they develop especially good aim.",
+    "+2 racial bonus on Listen checks: Halflings have keen ears."
+  ],
   "favouredClass": "rogue",
   "raceModifiers": {
     "abilityModifiers": [

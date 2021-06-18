@@ -3,7 +3,7 @@ import { ObjectType, Field, ID } from 'type-graphql';
 import { RaceLanguage } from './RaceLanguages';
 
 import { RaceModifiers } from './RaceModifiers';
-import { RaceDescription } from './RaceDescription'
+import { SpecialTrait } from './SpecialTrait';
 
 @ObjectType()
 export class Race {
@@ -15,9 +15,9 @@ export class Race {
   @prop({ required: true })
   name!: String;
 
-  @Field(() => RaceDescription , { description: 'Description of the character race' })
-  @prop({ required: true })
-  description!: RaceDescription;
+  @Field({description: 'Brief description of the race'})
+  @prop({required: true})
+  description!: String; 
 
   @Field({ description: 'Average size of the characters from this race' })
   @prop({ required: true })
@@ -26,6 +26,14 @@ export class Race {
   @Field({ description: 'Character base land speed' })
   @prop({ required: true })
   speed!: Number;
+
+  @Field(() => [SpecialTrait])
+  @prop()
+  generalTraits!: SpecialTrait[]
+
+  @Field(() => [String])
+  @prop()
+  checksAndSaves!: String[]; 
 
   @Field({ description: 'Favoured class for the individuals of the race' })
   @prop({ required: true })

@@ -3,25 +3,23 @@
     "$oid": "60c9b436b1ff329b9a9667d9"
   },
   "name": "elf",
-  "description": {
-    "raceDescription": "Elf description here",
-    "generalTraits": [
-      {
-        "traitName": "Low-light Vision",
-        "traitDescription": "An elf can see twice as far as a human in starlight, moonlight, torchlight, and similar conditions of poor illumination. She retains the ability to distinguish color and detail under these conditions."
-      },
-      {
-        "traitName": "Weapon Proficiency:",
-        "traitDescription": "Elves receive the Martial Weapon Proficiency feats for the longsword, rapier, longbow (including composite longbow), and shortbow (including composite shortbow) as bonus feats. Elves esteem the arts of swordplay and archery, so all elves are familiar with these weapons."
-      }
-    ],
-    "checksAndSaves": [
-      "Immunity to magic sleep effects, and a +2 racial saving throw bonus against enchantment spells or effects.",
-      "+2 racial bonus on Listen, Search, and Spot checks. An elf who merely passes within 5 feet of a secret or concealed door is entitled to a Search check to notice it as if she were actively looking for it. An elf’s senses are so keen that she practically has a sixth sense about hidden portals."
-    ]
-  },
+  "description":  "Elf description here",
   "size": "medium",
   "speed": 30,
+  "generalTraits": [
+    {
+      "traitName": "Low-light Vision",
+      "traitDescription": "An elf can see twice as far as a human in starlight, moonlight, torchlight, and similar conditions of poor illumination. She retains the ability to distinguish color and detail under these conditions."
+    },
+    {
+      "traitName": "Weapon Proficiency:",
+      "traitDescription": "Elves receive the Martial Weapon Proficiency feats for the longsword, rapier, longbow (including composite longbow), and shortbow (including composite shortbow) as bonus feats. Elves esteem the arts of swordplay and archery, so all elves are familiar with these weapons."
+    }
+  ],
+  "checksAndSaves": [
+    "Immunity to magic sleep effects, and a +2 racial saving throw bonus against enchantment spells or effects.",
+    "+2 racial bonus on Listen, Search, and Spot checks. An elf who merely passes within 5 feet of a secret or concealed door is entitled to a Search check to notice it as if she were actively looking for it. An elf’s senses are so keen that she practically has a sixth sense about hidden portals."
+  ],
   "favouredClass": "wizard",
   "raceModifiers": {
     "abilityModifiers": [
