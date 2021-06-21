@@ -3,11 +3,11 @@ import { ObjectType, Field } from "type-graphql";
 
 @ObjectType()
 export class SpecialTrait {
-  @Field({description: 'Name of a special racial trait, or ability'})
+  @Field({description: 'Name of a special racial trait, or ability', nullable: true})
   @prop({required: true})
   traitName!: String
 
-  @Field({description: 'Description of the special trait'})
+  @Field({description: 'Description of the special trait', nullable: true})
   @prop({required: true})
   traitDescription!: String
 

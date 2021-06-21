@@ -138,14 +138,17 @@ type Query {
 }
 
 type Race {
-  checksAndSaves: [CheckModifier!]!
+  """Check and save modifiers coming from this race"""
+  checksAndSaves: [CheckModifier!]
 
   """Brief description of the race"""
   description: String!
 
   """Favoured class for the individuals of the race"""
   favouredClass: String!
-  generalTraits: [SpecialTrait!]!
+
+  """Special racial traits"""
+  generalTraits: [SpecialTrait!]
   id: ID!
 
   """Languages typically spoken by the race"""
@@ -193,10 +196,10 @@ type SkillModifier {
 
 type SpecialTrait {
   """Description of the special trait"""
-  traitDescription: String!
+  traitDescription: String
 
   """Name of a special racial trait, or ability"""
-  traitName: String!
+  traitName: String
 }
 
 type Speed {

@@ -27,12 +27,12 @@ export class Race {
   @prop({ required: true })
   speed!: Number;
 
-  @Field(() => [SpecialTrait])
-  @prop()
+  @Field(() => [SpecialTrait], {description: "Special racial traits", nullable: true})
+  @prop({ required: false })
   generalTraits!: SpecialTrait[]
 
-  @Field(() => [CheckModifier])
-  @prop()
+  @Field(() => [CheckModifier], {description: 'Check and save modifiers coming from this race', nullable: true})
+  @prop({ required: false })
   checksAndSaves!: CheckModifier[]; 
 
   @Field({ description: 'Favoured class for the individuals of the race' })
