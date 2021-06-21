@@ -5,8 +5,6 @@ import { CheckModifier } from './CheckModifier';
 import { RaceModifiers } from './RaceModifiers';
 import { SpecialTrait } from './SpecialTrait';
 
-
-
 @ObjectType()
 export class Race {
   @Field(() => ID, { name: 'id' })
