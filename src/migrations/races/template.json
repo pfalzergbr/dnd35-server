@@ -3,7 +3,7 @@
     "$oid": "60c9b436b1ff329b9a9667d9"
   },
   "name": "",
-  "description": "Pointy ears",
+  "description": "",
   "size": "",
   "speed": 30,
   "generalTraits": [
@@ -12,7 +12,14 @@
       "traitDescription": ""
     }
   ],
-  "checksAndSaves": [],
+  "checksAndSaves": [
+    {
+      "name":"",
+      "description": "",
+      "fields": [""],
+      "modifier": 0
+    }
+  ],
   "favouredClass": "",
   "raceModifiers": {
     "abilityModifiers": [

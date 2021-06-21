@@ -17,9 +17,24 @@
     }
   ],
   "checksAndSaves": [
-    "Immunity to sleep spells and similar magical effects, and a +2 racial bonus on saving throw against enchantment spells or effects.",
-    "+1 racial bonus on Listen, Search, and Spot checks: A half-elf does not have the elf’s ability to notice secret doors simply by passing near them. Half-elves have keen senses, but not as keen as those of an elf.",
-    "+2 racial bonus on Diplomacy and Gather Information checks: Half-elves get along naturally with all people."
+    {
+      "name":"Spell resistance",
+      "description": "Immunity to magic sleep effects, and a +2 racial saving throw bonus against enchantment spells or effects.",
+      "fields": ["savingThrow"],
+      "modifier": 2
+    },
+    {
+      "name":"Keen senses",
+      "description": "+1 racial bonus on Listen, Search, and Spot checks: A half-elf does not have the elf’s ability to notice secret doors simply by passing near them. Half-elves have keen senses, but not as keen as those of an elf.",
+      "fields": ["listen, search, spot"],
+      "modifier": 1
+    },
+    {
+      "name":"Diplomatic",
+      "description": "+2 racial bonus on Diplomacy and Gather Information checks: Half-elves get along naturally with all people.",
+      "fields": ["diplomacy, gatherInformation"],
+      "modifier": 1
+    }
   ],
   "favouredClass": "any",
   "raceModifiers": {

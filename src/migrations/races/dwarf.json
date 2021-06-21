@@ -25,12 +25,42 @@
     }
   ],
   "checksAndSaves": [
-    "+2 racial bonus on saving throws against poison: Dwarves are hardy and resistant to toxins.",
-    "+2 racial bonus on saving throws against spells and spell-like effects: dwarves have an innate resistance to magic spells.",
-    "+1 racial bonus to attack rolls against orcs (including half-orcs) and goblinoids (including goblins, hobgoblins, and bugbears): Dwarves are trained in the special combat techniques that allow them to fight their common enemies more effectively.",
-    "+4 dodge bonus to Armor Class against monsters of the giant type (such as ogres, trolls, and hill giants): This bonus represents special training that dwarves undergo, during which they learn tricks that previous generations developed in their battles with giants. Any time a creature loses its Dexterity bonus (if any) to Armor Class, such as when it’s caught flat-footed, it loses its dodge bonus, too. The Monster Manual has information on which creatures are of the giant type",
-    "+2 racial bonus on Appraise checks that are related to stone or metal items: Dwarves are familiar with valuable items of all kinds, especially those made of stone or metal.",
-    "+2 racial bonus on Craft checks that are related to stone or metal: Dwarves are especially capable with stonework and metalwork."
+    {
+      "name": "Poision resistance",
+      "description": "+2 racial bonus on saving throws against poison: Dwarves are hardy and resistant to toxins.",
+      "fields": ["savingThrow"],
+      "modifier": 2
+    },
+    {
+      "name":"Spell resistance",
+      "description": "+2 racial bonus on saving throws against spells and spell-like effects: dwarves have an innate resistance to magic spells.",
+      "fields": ["savingThrow"],
+      "modifier": 2
+    },
+    {
+      "name":"Fight agains orcs",
+      "description": "+1 racial bonus to attack rolls against orcs (including half-orcs) and goblinoids (including goblins, hobgoblins, and bugbears): Dwarves are trained in the special combat techniques that allow them to fight their common enemies more effectively.",
+      "fields": ["attack"],
+      "modifier": 1
+    },
+    {
+      "name":"Fight agains giants",
+      "description": "+4 dodge bonus to Armor Class against monsters of the giant type (such as ogres, trolls, and hill giants): This bonus represents special training that dwarves undergo, during which they learn tricks that previous generations developed in their battles with giants. Any time a creature loses its Dexterity bonus (if any) to Armor Class, such as when it’s caught flat-footed, it loses its dodge bonus, too.",
+      "fields": ["armorClass"],
+      "modifier": 4
+    },
+    {
+      "name":"Stone and metalwork knowledge",
+      "description":  "+2 racial bonus on Appraise checks that are related to stone or metal items: Dwarves are familiar with valuable items of all kinds, especially those made of stone or metal.",
+      "fields": ["appraise"],
+      "modifier": 2
+    },
+    {
+      "name":"Stone and metalwork craft",
+      "description":"+2 racial bonus on Craft checks that are related to stone or metal: Dwarves are especially capable with stonework and metalwork.",
+      "fields": ["craft"],
+      "modifier": 2
+    }   
   ],
   "favouredClass": "fighter",
   "raceModifiers": {

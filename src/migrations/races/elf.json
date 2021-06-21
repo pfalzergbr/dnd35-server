@@ -17,8 +17,20 @@
     }
   ],
   "checksAndSaves": [
-    "Immunity to magic sleep effects, and a +2 racial saving throw bonus against enchantment spells or effects.",
-    "+2 racial bonus on Listen, Search, and Spot checks. An elf who merely passes within 5 feet of a secret or concealed door is entitled to a Search check to notice it as if she were actively looking for it. An elf’s senses are so keen that she practically has a sixth sense about hidden portals."
+    {
+      "name":"Spell resistance",
+      "description": "Immunity to magic sleep effects, and a +2 racial saving throw bonus against enchantment spells or effects.",
+      "fields": ["savingThrow"],
+      "modifier": 2
+    },
+    {
+      "name":"Keen senses",
+      "description": "+2 racial bonus on Listen, Search, and Spot checks. An elf who merely passes within 5 feet of a secret or concealed door is entitled to a Search check to notice it as if she were actively looking for it. An elf’s senses are so keen that she practically has a sixth sense about hidden portals.",
+      "fields": ["listen, search, spot"],
+      "modifier": 2
+    }
+    
+    
   ],
   "favouredClass": "wizard",
   "raceModifiers": {

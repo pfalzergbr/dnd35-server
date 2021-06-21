@@ -25,12 +25,42 @@
     }
   ],
   "checksAndSaves": [
-    "+2 racial bonus on saving throws against illusions: Gnomes are innately familiar with illusions of all kinds.",
-    "Add +1 to the Difficulty Class for all saving throws against illusion spells cast by gnomes. Their innate familiarity with these effects make their illusions more difficult to see through. This adjustment stacks with those from similar effects, such as the Spell Focus feat.",
-    "+1 racial bonus on attack rolls against kobolds and goblinoids (including goblins, hobgoblins, and bugbears): Gnomes battle these creatures frequently and practice special techniques for fighting them.",
-    "+4 dodge bonus to Armor Class against monsters of the giant type (such as ogres, trolls, and hill giants): This bonus represents special training that gnomes undergo, during which they learn tricks that previous generations developed in their battles with giants. Any time a creature loses its Dexterity bonus (if any) to Armor Class, such as when it’s caught flat-footed, it loses its dodge bonus, too. The Monster Manual has information on which creatures are of the giant type.",
-    "+2 racial bonus on Listen checks: Gnomes have keen ears.",
-    "+2 racial bonus on Craft (alchemy) checks: A gnome’s sensitive nose allows him to monitor alchemical processes by smell."
+    {
+      "name": "Illusion resistance",
+      "description":"+2 racial bonus on saving throws against illusions: Gnomes are innately familiar with illusions of all kinds.",
+      "fields": ["savingThrow"],
+      "modifier": 2
+    },
+    {
+      "name": "Illusion familiarity",
+      "description":"Add +1 to the Difficulty Class for all saving throws against illusion spells cast by gnomes. Their innate familiarity with these effects make their illusions more difficult to see through. This adjustment stacks with those from similar effects, such as the Spell Focus feat.",
+      "fields": ["savingThrow"],
+      "modifier": -1
+    },
+    {
+      "name": "Fight against kobolds and goblinoids",
+      "description":"+1 racial bonus on attack rolls against kobolds and goblinoids (including goblins, hobgoblins, and bugbears): Gnomes battle these creatures frequently and practice special techniques for fighting them.",
+      "fields": ["attack"],
+      "modifier": 1
+    },
+    {
+      "name":"Fight agains giants",
+      "description": "+4 dodge bonus to Armor Class against monsters of the giant type (such as ogres, trolls, and hill giants): This bonus represents special training that dwarves undergo, during which they learn tricks that previous generations developed in their battles with giants. Any time a creature loses its Dexterity bonus (if any) to Armor Class, such as when it’s caught flat-footed, it loses its dodge bonus, too.",
+      "fields": ["armorClass"],
+      "modifier": 4
+    },
+    {
+      "name":"Keen ears",
+      "description": "+2 racial bonus on Listen checks: Gnomes have keen ears.",
+      "fields": ["listen"],
+      "modifier": 2
+    },
+    {
+      "name":"Alchemy",
+      "description": "+2 racial bonus on Craft (alchemy) checks: A gnome’s sensitive nose allows him to monitor alchemical processes by smell.",
+      "fields": ["craft"],
+      "modifier": 2
+    }
   ],
   "favouredClass": "bard",
   "raceModifiers": {

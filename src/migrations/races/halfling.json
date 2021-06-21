@@ -1,6 +1,6 @@
 {
   "_id": {
-    "$oid": "60c9b436b1ff329b9a9667d9"
+    "$oid": ""
   },
   "name": "halfling",
   "description": "Halfling description comes here",
@@ -13,11 +13,36 @@
     }
   ],
   "checksAndSaves": [
-    "+2 racial bonus on Climb, Jump, and Move Silently checks: Halflings are agile, surefooted, and athletic.",
-    "+1 racial bonus on all saving throws: Halflings are surprisingly capable of avoiding mishaps",
-    "+2 morale bonus on saving throws against fear. This bonus stacks with the halfling’s +1 bonus on saving throws in general.",
-    "+1 racial bonus on attack rolls with a thrown weapon and slings: Throwing and slinging stones is a universal sport among halflings, and they develop especially good aim.",
-    "+2 racial bonus on Listen checks: Halflings have keen ears."
+    {
+      "name": "Agile",
+      "description": "+2 racial bonus on Climb, Jump, and Move Silently checks: Halflings are agile, surefooted, and athletic.",
+      "fields": ["climb", "jump", "moveSilently"],
+      "modifier": 2
+    },
+    {
+      "name": "Avoiding Mishaps",
+      "description": "+1 racial bonus on all saving throws: Halflings are surprisingly capable of avoiding mishaps",
+      "fields": ["savingThrow"],
+      "modifier": 1
+    },
+    {
+      "name": "Brave",
+      "description": "+2 morale bonus on saving throws against fear. This bonus stacks with the halfling’s +1 bonus on saving throws in general.",
+      "fields": ["savingThrow"],
+      "modifier": 2
+    },
+    {
+      "name": "Brave",
+      "description": "+1 racial bonus on attack rolls with a thrown weapon and slings: Throwing and slinging stones is a universal sport among halflings, and they develop especially good aim.",
+      "fields": ["attack"],
+      "modifier": 1
+    },
+    {
+      "name": "Brave",
+      "description": "+2 racial bonus on Listen checks: Halflings have keen ears.",
+      "fields": ["listen"],
+      "modifier": 2
+    }
   ],
   "favouredClass": "rogue",
   "raceModifiers": {
