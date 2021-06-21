@@ -1,9 +1,11 @@
 import { mongoose, prop, getModelForClass } from '@typegoose/typegoose';
 import { ObjectType, Field, ID } from 'type-graphql';
 import { RaceLanguage } from './RaceLanguages';
-
+import { CheckModifier } from './CheckModifier';
 import { RaceModifiers } from './RaceModifiers';
 import { SpecialTrait } from './SpecialTrait';
+
+
 
 @ObjectType()
 export class Race {
@@ -31,9 +33,9 @@ export class Race {
   @prop()
   generalTraits!: SpecialTrait[]
 
-  @Field(() => [String])
+  @Field(() => [CheckModifier])
   @prop()
-  checksAndSaves!: String[]; 
+  checksAndSaves!: CheckModifier[]; 
 
   @Field({ description: 'Favoured class for the individuals of the race' })
   @prop({ required: true })

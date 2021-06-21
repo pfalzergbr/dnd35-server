@@ -63,6 +63,13 @@ type CharacterRace {
   raceName: String!
 }
 
+type CheckModifier {
+  description: String!
+  fields: [String!]!
+  modifier: Float!
+  name: String!
+}
+
 type FeatModifier {
   """ObjectId if the extra feat for more efficient writes"""
   featId: ID!
@@ -131,11 +138,14 @@ type Query {
 }
 
 type Race {
-  """Description of the character race"""
-  description: RaceDescription!
+  checksAndSaves: [CheckModifier!]!
+
+  """Brief description of the race"""
+  description: String!
 
   """Favoured class for the individuals of the race"""
   favouredClass: String!
+  generalTraits: [SpecialTrait!]!
   id: ID!
 
   """Languages typically spoken by the race"""
@@ -150,17 +160,8 @@ type Race {
   """Average size of the characters from this race"""
   size: String!
 
-  """Special traits for the individuals of the race"""
-  specialTraits: [SpecialTrait!]!
-
   """Character base land speed"""
   speed: Float!
-}
-
-type RaceDescription {
-  checksAndSaves: [String!]!
-  generalTraits: [String!]!
-  raceDescription: String!
 }
 
 type RaceLanguage {
@@ -173,13 +174,13 @@ type RaceLanguage {
 
 type RaceModifiers {
   """List of ability modifiers"""
-  abilityModifiers: [AbilityModifier!]!
+  abilityModifiers: [AbilityModifier!]
 
   """List of extra feats the characters get with this race"""
-  featModifiers: [FeatModifier!]!
+  featModifiers: [FeatModifier!]
 
   """Skillpoint modifiers"""
-  skillModifiers: SkillModifier!
+  skillModifiers: SkillModifier
 }
 
 type SkillModifier {
