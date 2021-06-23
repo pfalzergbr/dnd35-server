@@ -6,7 +6,6 @@ import { CharacterRace } from '../entities/characters/CharacterRace';
 import { RaceModel } from '../entities/races/Race';
 import { UserModel } from '../entities/users/User';
 import { ApolloContext } from '../typings/context';
-import { charCreationBaseLinks } from '../utils/charCreationBaseLinks';
 
 @Resolver()
 export class CharacterResolver {
@@ -30,41 +29,12 @@ export class CharacterResolver {
     if (!req.user) {
       throw new Error('Unauthorized. Please log in to create a character');
     }
-    const session = await mongoose.startSession();
-    session.startTransaction();
-    const user = await UserModel.findOne({ _id: req.user.id }).session(session);
-    if (!user) {
-      throw new Error('User not found');
+    try {
+      const character = await CharacterModel.createCharacter(req.user.id, name as string);
+      return character;
+    } catch (error) {
+      throw new Error("Something went wrong. Please try again.")
     }
-    if (user.characters.length >=5 ){
-      throw new Error("You have the maximum number of 5 characters. Delete one to add a new one")
-    }
-    const character = new CharacterModel({
-      _id: mongoose.Types.ObjectId(),
-      name,
-      ownerId: req.user.id,
-      isCompleted: false,
-      charCreationProgress: 
-      { 
-        nextLink: '/choose-race',
-        links: charCreationBaseLinks
-      }
-    });
-    const characterLink = {
-      characterId: character._id,
-      name,
-      race: null,
-      class: null,
-      level: 1,
-      isCompleted: false,
-      nextLink: '/choose-race'
-    };
-    user.characters.push(characterLink);
-    await character.save({ session: session });
-    await user.save({ session: session });
-    await session.commitTransaction();
-    session.endSession();
-    return character;
   }
 
   @Mutation(() => String)
