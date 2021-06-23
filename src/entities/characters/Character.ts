@@ -82,7 +82,7 @@ export class Character extends TimeStamps {
     return character;
   }
 
-  public async deleteCharacter(userId: string, characterId: string) {
+  public static async deleteCharacter(userId: string, characterId: string) {
     const session = await mongoose.startSession();
     session.startTransaction();
     const user = await UserModel.findOne({ _id: userId }).session(session);

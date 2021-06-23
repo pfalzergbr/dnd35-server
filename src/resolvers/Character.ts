@@ -4,7 +4,6 @@ import { Character, CharacterModel } from '../entities/characters/Character';
 import { CharacterInput } from '../entities/characters/character-inputs';
 import { CharacterRace } from '../entities/characters/CharacterRace';
 import { RaceModel } from '../entities/races/Race';
-import { UserModel } from '../entities/users/User';
 import { ApolloContext } from '../typings/context';
 
 @Resolver()
@@ -42,25 +41,12 @@ export class CharacterResolver {
     if (!req.user) {
       throw new Error('Unauthorized. Please log in.');
     }
-    const session = await mongoose.startSession();
-    session.startTransaction();
-    const user = await UserModel.findOne({ _id: req.user.id }).session(session);
-    if (!user) {
-      throw new Error('User not found');
-    }
     try {
-      await CharacterModel.findOneAndDelete({ _id: id }).session(session);
+      CharacterModel.deleteCharacter(req.user.id, id);
+      return id;
     } catch (error) {
-      throw new Error('Character not found')      
+      throw new Error('Error. Character cannot be deleted. Please try again.')
     }
-    console.log(mongoose.Types.ObjectId(id), user.characters[0].characterId)
-    user.characters = user.characters.filter(
-      character => id !== character.characterId.toString()
-    );
-    await user.save({ session });
-    await session.commitTransaction();
-    session.endSession;
-    return id;
   }
 
   @Mutation(() => Character)
