@@ -20,6 +20,14 @@ export class User extends TimeStamps {
   @Field(() => [CharacterLink])
   @prop({ required: true, default: [] })
   characters!: CharacterLink[];
+
+  public static async findUser(id: string){
+    const user = await UserModel.findOne({ _id: id });
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return user;
+  }
 }
 
 export const UserModel = getModelForClass(User);

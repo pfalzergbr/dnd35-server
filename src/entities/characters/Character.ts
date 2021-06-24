@@ -5,8 +5,8 @@ import { CharCreationProgress } from './CharCreationProgress';
 import { CharacterRace } from './CharacterRace';
 import { PhysicalStats } from './PhysicalStats';
 import { UserModel} from '../users/User';
+import { RaceModel } from '../races/Race';
 import { charCreationBaseLinks } from '../../utils/charCreationBaseLinks';
-
 
 @ObjectType({ description: 'Base Character model' })
 export class Character extends TimeStamps {
@@ -30,7 +30,7 @@ export class Character extends TimeStamps {
     description:
       'Character creation progress, and available links for navigating the flow',
   })
-  @prop({ required: true }) 
+  @prop({ required: true })
   charCreationProgress!: CharCreationProgress;
 
   @Field(() => CharacterRace, {
@@ -39,31 +39,31 @@ export class Character extends TimeStamps {
   @prop()
   characterRace!: CharacterRace;
 
-  @Field(() => PhysicalStats, { description: 'Physical, computed stats of the character. AC, Init, Health and Speed'})
+  @Field(() => PhysicalStats, {
+    description:
+      'Physical, computed stats of the character. AC, Init, Health and Speed',
+  })
   @prop()
-  physicalStats!: PhysicalStats
-
+  physicalStats!: PhysicalStats;
 
   public static async createCharacter(userId: string, characterName: string) {
     const session = await mongoose.startSession();
     session.startTransaction();
-    const user = await UserModel.findOne({ _id: userId }).session(session);
-    if (!user) {
-      throw new Error('User not found');
-    }
-    if (user.characters.length >=5 ){
-      throw new Error("You have the maximum number of 5 characters. Delete one to add a new one")
+    const user = await UserModel.findUser(userId);
+    if (user.characters.length >= 5) {
+      throw new Error(
+        'You have the maximum number of 5 characters. Delete one to add a new one'
+      );
     }
     const character = new CharacterModel({
       _id: mongoose.Types.ObjectId(),
       name: characterName,
       ownerId: userId,
       isCompleted: false,
-      charCreationProgress: 
-      { 
+      charCreationProgress: {
         nextLink: '/choose-race',
-        links: charCreationBaseLinks
-      }
+        links: charCreationBaseLinks,
+      },
     });
     const characterLink = {
       characterId: character._id,
@@ -72,7 +72,7 @@ export class Character extends TimeStamps {
       class: null,
       level: 1,
       isCompleted: false,
-      nextLink: '/choose-race'
+      nextLink: '/choose-race',
     };
     user.characters.push(characterLink);
     await character.save({ session: session });
@@ -82,26 +82,74 @@ export class Character extends TimeStamps {
     return character;
   }
 
-  public static async deleteCharacter(userId: string, characterId: string) {
+  public static async deleteCharacter(
+    userId: string,
+    characterId: string
+  ): Promise<string> {
     const session = await mongoose.startSession();
     session.startTransaction();
-    const user = await UserModel.findOne({ _id: userId }).session(session);
-    if (!user) {
-      throw new Error('User not found');
-    }
+    const user = await UserModel.findUser(userId);
     try {
-      await CharacterModel.findOneAndDelete({ _id: characterId }).session(session);
+      await CharacterModel.findOneAndDelete({ _id: characterId }).session(
+        session
+      );
     } catch (error) {
-      throw new Error('Character not found')      
+      throw new Error('Character not found');
     }
 
     user.characters = user.characters.filter(
-      character => characterId !== character.characterId.toString()
+      (character) => characterId !== character.characterId.toString()
     );
     await user.save({ session });
     await session.commitTransaction();
     session.endSession;
     return characterId;
+  }
+
+  // Refactor to non-static method later. Check if it works like this though.
+  public static async chooseRace(userId: string, characterId: string, raceId: string) {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
+    const user = await UserModel.findOne({ _id: userId }).session(session);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const character = await CharacterModel.findOne({
+      _id: characterId,
+      ownerId: userId,
+    }).session(session);
+    
+    if (!character) throw new Error('Error. Character not found.');
+    const race = await RaceModel.findOne({ _id: raceId }).session(session);
+    if (!race) throw new Error('Error, Race not found.');
+
+    const characterRace: CharacterRace = {
+      raceId: race._id,
+      raceName: race.name,
+    };
+
+    character.characterRace = characterRace;
+    const updatedCharacters = user.characters.map((character) => {
+      if (characterId === character.characterId.toString()) {
+        character.race = race.name;
+        if (character.nextLink === '/choose-race') {
+          character.nextLink = '/choose-class';
+        }
+      }
+      return character;
+    });
+
+    user.characters = updatedCharacters;
+
+    // const savedUser = await user.save({ session });
+    await UserModel.updateOne({_id: user._id}, { characters: updatedCharacters}).session(session);
+    await character.save({ session });
+
+    await session.commitTransaction();
+    session.endSession;
+    return character;
   }
 }
 

@@ -1,9 +1,9 @@
-import { mongoose } from '@typegoose/typegoose';
+// import { mongoose } from '@typegoose/typegoose';
 import { Mutation, Query, Resolver, Ctx, Arg } from 'type-graphql';
 import { Character, CharacterModel } from '../entities/characters/Character';
 import { CharacterInput } from '../entities/characters/character-inputs';
-import { CharacterRace } from '../entities/characters/CharacterRace';
-import { RaceModel } from '../entities/races/Race';
+// import { CharacterRace } from '../entities/characters/CharacterRace';
+// import { RaceModel } from '../entities/races/Race';
 import { ApolloContext } from '../typings/context';
 
 @Resolver()
@@ -59,28 +59,11 @@ export class CharacterResolver {
       throw new Error('Unauthorized. Please log in.');
     }
     try {
-      const session = await mongoose.startSession();
-      session.startTransaction();
-
-      const character = await CharacterModel.findOne({_id: characterId, ownerId: req.user.id}).session(session)
-      const race = await RaceModel.findOne({_id: raceId}).session(session)
-      if (character && race ){
-        const characterRace: CharacterRace = {
-          raceId: race._id, raceName: race.name
-        }
-        character.characterRace = characterRace
-// TODO
-      } else {
-        throw new Error('Data is missing. Please try again.')
-      }
-
-//TODO
-
-      console.log(race)
-//TODO
-      return character
+      const character = await CharacterModel.chooseRace(req.user.id, characterId, raceId);
+      return character;  
     } catch (error) {
-      throw new Error('Something went wrong. Please try again')
+      throw new Error(error);
+      // console.log(error)
     }
   }
   
