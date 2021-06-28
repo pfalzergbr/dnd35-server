@@ -111,11 +111,12 @@ export class Character extends TimeStamps {
     const session = await mongoose.startSession();
     session.startTransaction();
 
+    //This block could probably be removed.
     const user = await UserModel.findOne({ _id: userId }).session(session);
     if (!user) {
       throw new Error('User not found');
     }
-
+    // This might be simplified as well
     const character = await CharacterModel.findOne({
       _id: characterId,
       ownerId: userId,
@@ -131,6 +132,10 @@ export class Character extends TimeStamps {
     };
 
     character.characterRace = characterRace;
+    character.charCreationProgress.nextLink = '/choose-class';
+    character.charCreationProgress.links[1].active = true;
+    //This is hacky, please improve
+
     const updatedCharacters = user.characters.map((character) => {
       if (characterId === character.characterId.toString()) {
         character.race = race.name;
@@ -140,10 +145,8 @@ export class Character extends TimeStamps {
       }
       return character;
     });
-
+    //This could be removed
     user.characters = updatedCharacters;
-
-    // const savedUser = await user.save({ session });
     await UserModel.updateOne({_id: user._id}, { characters: updatedCharacters}).session(session);
     await character.save({ session });
 
