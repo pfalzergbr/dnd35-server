@@ -1,6 +1,7 @@
 import { ObjectType, ID, Field } from 'type-graphql';
 import { prop, getModelForClass, mongoose } from '@typegoose/typegoose';
 import { SkillModifiers } from './SkillModifiers';
+import { Level } from './Level';
 
 @ObjectType({ description: 'Character Class model' })
 export class CharacterClass {
@@ -28,18 +29,18 @@ export class CharacterClass {
   magicAbility!: String;
   // Change to ENUM
 
-  @Field(() => SkillModifiers)
-  @prop()
+  @Field(() => SkillModifiers, {description: 'Skill information for the class'})
+  @prop({required: true})
   skillModifiers!: SkillModifiers;
 
   @Field()
   @prop()
   classFeats!: Object[]
-  // Think about this one, might not be needed. 
+  // Think about this one, probably not be needed. 
   
-  @Field()
-  @prop()
-  levels!: Object[]
+  @Field(() => [Level], { description: 'Level up chart for the class'})
+  @prop({required: true})
+  levels!: Level[]
 }
 
 export const CharacterClassModel = getModelForClass(CharacterClass);
