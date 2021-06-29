@@ -1,0 +1,18 @@
+{
+  "_id": {
+    "$oid": ""
+  },
+  "className": "barbarian",
+  "alignments": [
+    "neutral good", 
+    "chaotic good", 
+    "true neutral", 
+    "chaotic neutral", 
+    "neutral evil", 
+    "chaotic evil" 
+  ],
+  "hitDie": 12,
+  "skillModifiers": {
+    
+  }
+}

@@ -17,6 +17,10 @@ export class CharacterClass {
   @prop({ required: true })
   alignments!: String[];
 
+  @Field({description: 'Hitpoint die per level'})
+  @prop({required: true})
+  hitDie!: Number;
+
   @Field({ description: 'Type of magic used by the class' })
   @prop({ required: false, nullable: true })
   magicType!: String;

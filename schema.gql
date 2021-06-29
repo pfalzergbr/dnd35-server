@@ -46,6 +46,9 @@ type CharacterClass {
 
   """Name of the character class"""
   className: String!
+
+  """Hitpoint die per level"""
+  hitDie: Float!
   id: ID!
 
   """Level up chart for the class"""
