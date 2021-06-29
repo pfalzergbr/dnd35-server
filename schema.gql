@@ -144,11 +144,14 @@ type Level {
   """Number of the level"""
   level: Float!
 
-  """Special feats gained this level"""
-  levelSpecial: [String!]!
-
   """Saving throw bonuses on this level"""
   saveBonuses: SaveBonuses!
+
+  """Special feats gained this level"""
+  specialFeats: [String!]
+
+  """Spell like abilities gained on this level"""
+  spellLikeAbilities: [String!]
 }
 
 """Links for character creation steps"""

@@ -32,11 +32,6 @@ export class CharacterClass {
   @Field(() => SkillModifiers, {description: 'Skill information for the class'})
   @prop({required: true})
   skillModifiers!: SkillModifiers;
-
-  // @Field()
-  // @prop()
-  // classFeats!: Object[]
-  // Think about this one, probably not be needed. 
   
   @Field(() => [Level], { description: 'Level up chart for the class'})
   @prop({required: true})

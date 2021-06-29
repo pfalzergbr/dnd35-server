@@ -43,12 +43,16 @@ export class Level {
   @prop({required: true})
   saveBonuses!: SaveBonuses;
   
-  @Field(() => [String], {description: 'Special feats gained this level'})
-  @prop({required: true})
-  levelSpecial!: String[]
+  @Field(() => [String], {description: 'Special feats gained this level', nullable: true})
+  @prop({required: false})
+  specialFeats!: String[]
   //Specify here once we have a feat template
 
   @Field(() => ClassSpells, {description: 'Spell information for the current level', nullable: true})
   @prop({required: false})
   classSpells!: ClassSpells;
+
+  @Field(() => [String], {description: "Spell like abilities gained on this level", nullable: true})
+  @prop({required: false})
+  spellLikeAbilities!: String[]
 }
