@@ -31,6 +31,15 @@ export class CharacterClass {
   @Field(() => SkillModifiers)
   @prop()
   skillModifiers!: SkillModifiers;
+
+  @Field()
+  @prop()
+  classFeats!: Object[]
+  // Think about this one, might not be needed. 
+  
+  @Field()
+  @prop()
+  levels!: Object[]
 }
 
 export const CharacterClassModel = getModelForClass(CharacterClass);
