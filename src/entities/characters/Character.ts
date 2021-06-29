@@ -133,7 +133,8 @@ export class Character extends TimeStamps {
 
     character.characterRace = characterRace;
     character.charCreationProgress.nextLink = '/choose-class';
-    character.charCreationProgress.links[1].active = true;
+    const newLinks = character.charCreationProgress.links.map(link => link.to === '/choose-class' ? {...link, active: true} : {...link})
+    character.charCreationProgress.links = newLinks;
     //This is hacky, please improve
 
     const updatedCharacters = user.characters.map((character) => {
