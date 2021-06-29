@@ -13,7 +13,7 @@ export class CharacterClass {
   @prop({ required: true })
   className!: String;
 
-  @Field({ description: 'Available alignments for the members of the class' })
+  @Field(() => [String],{ description: 'Available alignments for the members of the class' })
   @prop({ required: true })
   alignments!: String[];
 
@@ -33,9 +33,9 @@ export class CharacterClass {
   @prop({required: true})
   skillModifiers!: SkillModifiers;
 
-  @Field()
-  @prop()
-  classFeats!: Object[]
+  // @Field()
+  // @prop()
+  // classFeats!: Object[]
   // Think about this one, probably not be needed. 
   
   @Field(() => [Level], { description: 'Level up chart for the class'})

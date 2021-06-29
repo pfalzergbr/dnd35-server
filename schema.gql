@@ -39,6 +39,28 @@ type Character {
   physicalStats: PhysicalStats!
 }
 
+"""Character Class model"""
+type CharacterClass {
+  """Available alignments for the members of the class"""
+  alignments: [String!]!
+
+  """Name of the character class"""
+  className: String!
+  id: ID!
+
+  """Level up chart for the class"""
+  levels: [Level!]!
+
+  """Ability associated with the use of magic for this class"""
+  magicAbility: String!
+
+  """Type of magic used by the class"""
+  magicType: String!
+
+  """Skill information for the class"""
+  skillModifiers: SkillModifiers!
+}
+
 input CharacterInput {
   name: String!
 }
@@ -68,6 +90,14 @@ type CheckModifier {
   fields: [String!]!
   modifier: Float!
   name: String!
+}
+
+type ClassSpells {
+  """Spells per day on each spell level"""
+  spellsKnown: [Float!]
+
+  """Spells per day on each spell level"""
+  spellsPerDay: [Float!]
 }
 
 type FeatModifier {
@@ -103,6 +133,24 @@ type Initiative {
   totalInitiative: Float!
 }
 
+"""Level up information"""
+type Level {
+  """List of attack bonuses on this level"""
+  attackBonus: [Float!]!
+
+  """Spell information for the current level"""
+  classSpells: ClassSpells
+
+  """Number of the level"""
+  level: Float!
+
+  """Special feats gained this level"""
+  levelSpecial: [String!]!
+
+  """Saving throw bonuses on this level"""
+  saveBonuses: SaveBonuses!
+}
+
 """Links for character creation steps"""
 type LinkControl {
   active: Boolean!
@@ -129,9 +177,10 @@ type PhysicalStats {
 }
 
 type Query {
+  getAllClasses: [CharacterClass!]!
   getAllRaces: [Race!]!
   getCharacterById(id: String!): Character!
-  getRaceById(id: String!): Race!
+  getRaceById(id: String!): CharacterClass!
   getUser: User!
   login(data: UserInput!): User!
   logout: Boolean!
@@ -186,12 +235,35 @@ type RaceModifiers {
   skillModifiers: SkillModifier
 }
 
+type SaveBonuses {
+  """Fortitude Saving Throw Bonus"""
+  fortBonus: Float!
+
+  """Reflex Saving Throw Bonus"""
+  refBonus: Float!
+
+  """Will Saving Throw Bonus"""
+  willBonus: Float!
+}
+
 type SkillModifier {
   """Extra skill points per new level"""
   extraLevelSkillPoint: Float!
 
   """Extra skill points on the first level."""
   extraStartingSkillPoint: Float!
+}
+
+"""Information about the skills of this class"""
+type SkillModifiers {
+  """List of class skills"""
+  classSkills: [String!]!
+
+  """Skill points on level-up"""
+  levelSkillPoints: Float!
+
+  """Skill points on the first level"""
+  startingSkillPoints: Float!
 }
 
 type SpecialTrait {

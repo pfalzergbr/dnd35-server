@@ -12,11 +12,12 @@ import keys from './config/keys';
 import { UserResolver } from './resolvers/User';
 import { CharacterResolver } from './resolvers/Character';
 import { RaceResolver } from './resolvers/Race';
+import { CharacterClassResolver } from './resolvers/CharacterClass';
 
 const main = async () => {
   // Schema and Resolvers for GraphQL
   const schema = await buildSchema({
-    resolvers: [UserResolver, CharacterResolver, RaceResolver],
+    resolvers: [UserResolver, CharacterResolver, RaceResolver, CharacterClassResolver],
     emitSchemaFile: true,
     validate: true,
   });

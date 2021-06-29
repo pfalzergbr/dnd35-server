@@ -19,11 +19,11 @@ export class SaveBonuses {
 @ObjectType()
 export class ClassSpells {
   // Might need rework for domains and schools to be more granular
-  @Field({description: 'Spells per day on each spell level', nullable: true})
+  @Field(() => [Number], {description: 'Spells per day on each spell level', nullable: true})
   @prop({required: false})
   spellsPerDay!: Number[];
   
-  @Field({description: 'Spells per day on each spell level', nullable: true})
+  @Field(() => [Number], {description: 'Spells per day on each spell level', nullable: true})
   @prop({required: false})
   spellsKnown!: Number[]
 }
@@ -35,7 +35,7 @@ export class Level {
   @prop({required: true})
   level!: Number;
 
-  @Field({description: 'List of attack bonuses on this level'})
+  @Field(() => [Number], {description: 'List of attack bonuses on this level'})
   @prop({required: true})
   attackBonus!: [Number];
 
@@ -43,9 +43,10 @@ export class Level {
   @prop({required: true})
   saveBonuses!: SaveBonuses;
   
-  @Field({description: 'Special feats gained this level'})
+  @Field(() => [String], {description: 'Special feats gained this level'})
   @prop({required: true})
-  levelSpecial!: Object[]
+  levelSpecial!: String[]
+  //Specify here once we have a feat template
 
   @Field(() => ClassSpells, {description: 'Spell information for the current level', nullable: true})
   @prop({required: false})

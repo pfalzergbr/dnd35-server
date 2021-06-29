@@ -3,7 +3,7 @@ import { prop } from '@typegoose/typegoose';
 
 @ObjectType({ description: 'Information about the skills of this class' })
 export class SkillModifiers {
-  @Field({ description: 'List of class skills' })
+  @Field(() => [String], { description: 'List of class skills' })
   @prop({ required: true })
   classSkills!: String[];
 
