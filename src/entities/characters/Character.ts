@@ -1,4 +1,4 @@
-import { mongoose, prop, getModelForClass } from '@typegoose/typegoose';
+import { mongoose, prop, getModelForClass} from '@typegoose/typegoose';
 import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
 import { ObjectType, Field, ID } from 'type-graphql';
 import { CharCreationProgress } from './CharCreationProgress';

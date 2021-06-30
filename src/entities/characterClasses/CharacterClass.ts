@@ -1,8 +1,10 @@
 import { ObjectType, ID, Field } from 'type-graphql';
-import { prop, getModelForClass, mongoose } from '@typegoose/typegoose';
+import { prop, getModelForClass, mongoose, modelOptions } from '@typegoose/typegoose';
 import { SkillModifiers } from './SkillModifiers';
 import { Level } from './Level';
 
+
+@modelOptions({ schemaOptions: {collection: 'characterClasses'}})
 @ObjectType({ description: 'Character Class model' })
 export class CharacterClass {
   @Field(() => ID, { name: 'id' })
