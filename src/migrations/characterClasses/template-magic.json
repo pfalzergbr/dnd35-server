@@ -2,7 +2,8 @@
   "_id": {
     "$oid": ""
   },
-  "className": "bard",
+  "name": "bard",
+  "classDescription": "Description here",
   "alignments": [
     "neutral good", 
     "chaotic good", 

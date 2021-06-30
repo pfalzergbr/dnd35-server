@@ -13,7 +13,11 @@ export class CharacterClass {
 
   @Field({ description: 'Name of the character class' })
   @prop({ required: true })
-  className!: String;
+  name!: String;
+
+  @Field({description: 'Description of the character class'})
+  @prop({required: true})
+  classDescription!: String; 
 
   @Field(() => [String],{ description: 'Available alignments for the members of the class' })
   @prop({ required: true })

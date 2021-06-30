@@ -2,7 +2,8 @@
   "_id": {
     "$oid": ""
   },
-  "className": "barbarian",
+  "name": "barbarian",
+  "classDescription": "Description here",
   "alignments": [
     "neutral good", 
     "chaotic good", 

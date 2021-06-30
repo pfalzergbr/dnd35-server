@@ -44,8 +44,8 @@ type CharacterClass {
   """Available alignments for the members of the class"""
   alignments: [String!]!
 
-  """Name of the character class"""
-  className: String!
+  """Description of the character class"""
+  classDescription: String!
 
   """Hitpoint die per level"""
   hitDie: Float!
@@ -59,6 +59,9 @@ type CharacterClass {
 
   """Type of magic used by the class"""
   magicType: String!
+
+  """Name of the character class"""
+  name: String!
 
   """Skill information for the class"""
   skillModifiers: SkillModifiers!
