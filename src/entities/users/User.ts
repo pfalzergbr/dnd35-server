@@ -30,12 +30,15 @@ export class User extends TimeStamps {
     return user;
   }
 
-  public async updateCharacterLinks(race: string, currentLink: string, nextLink: string, session: ClientSession) {
+  public async updateCharacterLinks(characterId: mongoose.Types.ObjectId, race: string, currentLink: string, nextLink: string, session: ClientSession) {
     const updatedCharacters = this.characters.map((character) => {
-      if (this._id === character.characterId) {
+      console.log(characterId, character.characterId)
+      if (characterId.toString() === character.characterId.toString()) {
         character.race = race;
+        console.log('updated race')
         if (character.nextLink === currentLink) {
           character.nextLink = nextLink;
+          console.log('updated link')
         }
       }
       return character;

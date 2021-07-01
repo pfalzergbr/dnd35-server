@@ -124,14 +124,15 @@ export class Character extends TimeStamps {
   public async chooseRace(this: DocumentType<Character>, user: DocumentType<User>, race: DocumentType<Race>) {
     const session = await mongoose.startSession();
     session.startTransaction();
-    
+
     this.characterRace = {
       raceId: race._id,
       raceName: race.name,
-    };;
+    };
     this.setProgress('/choose-class');
 
-    await user.updateCharacterLinks(race.name.toString(), '/choose-race', '/choose-class', session)
+    const updatedUser = await user.updateCharacterLinks(this._id, race.name.toString(), '/choose-race', '/choose-class', session)
+    console.log(updatedUser)
     await this.save({ session });
 
     await session.commitTransaction();
