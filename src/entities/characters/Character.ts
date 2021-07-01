@@ -6,7 +6,9 @@ import { CharacterRace } from './CharacterRace';
 import { PhysicalStats } from './PhysicalStats';
 import { UserModel} from '../users/User';
 import { RaceModel } from '../races/Race';
+import { CharacterClassModel } from '../characterClasses/CharacterClass';
 import { charCreationBaseLinks } from '../../utils/charCreationBaseLinks';
+import { CharClass } from './CharClass';
 
 @ObjectType({ description: 'Base Character model' })
 export class Character extends TimeStamps {
@@ -38,6 +40,11 @@ export class Character extends TimeStamps {
   })
   @prop()
   characterRace!: CharacterRace;
+
+  @Field(() => [CharClass], {description: 'Chosen classes for the character'})
+  @prop({nullable: true})
+  characterClass!: CharClass[] ;
+
 
   @Field(() => PhysicalStats, {
     description:
@@ -154,6 +161,31 @@ export class Character extends TimeStamps {
     await session.commitTransaction();
     session.endSession;
     return character;
+  }
+
+  public static async chooseClass(userId: string, characterId: string, classId: string){
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
+    //This block could probably be removed.
+    const user = await UserModel.findOne({ _id: userId }).session(session);
+    if (!user) {
+      throw new Error('User not found');
+    }
+    // This might be simplified as well
+    const character = await CharacterModel.findOne({
+      _id: characterId,
+      ownerId: userId,
+    }).session(session);
+
+    if (!character) throw new Error('Error. Character not found.');
+    const characterClass = await CharacterClassModel.findOne({ _id: classId }).session(session);
+    if (!characterClass) throw new Error('Error, Race not found.');
+
+    // const characterClass: CharacterClass = {
+    //   raceId: race._id,
+    //   raceName: race.name,
+    // };
   }
 }
 

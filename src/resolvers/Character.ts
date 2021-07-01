@@ -67,5 +67,20 @@ export class CharacterResolver {
     }
   }
   
+  @Mutation(() => Character)
+  async chooseClass(
+    @Arg('characterId') characterId: string,
+    @Arg('classId') classId: string,
+    @Ctx() { req }: ApolloContext
+  ) {
+    if (!req.user) {
+      throw new Error('Unauthorized. Please log in.');
+    }
+    try {
+      const character = await CharacterModel
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 
 }
