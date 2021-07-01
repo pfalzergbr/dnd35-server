@@ -131,8 +131,7 @@ export class Character extends TimeStamps {
     };
     this.setProgress('/choose-class');
 
-    const updatedUser = await user.updateCharacterLinks(this._id, race.name.toString(), '/choose-race', '/choose-class', session)
-    console.log(updatedUser)
+    await user.updateCharacterLinks(this._id, race.name.toString(), '/choose-race', '/choose-class', session)
     await this.save({ session });
 
     await session.commitTransaction();
