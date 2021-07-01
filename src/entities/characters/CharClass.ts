@@ -13,7 +13,7 @@ export class CharClass {
 
   @Field({description: 'Level of the current class'})
   @prop({required: true})
-  classLevel!: String;
+  classLevel!: Number;
 
   @Field({description: 'Is this a favoured class for the character?'})
   @prop()

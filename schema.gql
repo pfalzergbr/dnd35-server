@@ -16,7 +16,7 @@ type CharClass {
   classId: ID!
 
   """Level of the current class"""
-  classLevel: String!
+  classLevel: Float!
 
   """Name of the chosen class"""
   className: String!

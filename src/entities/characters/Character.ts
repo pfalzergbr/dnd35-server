@@ -1,14 +1,20 @@
-import { mongoose, prop, getModelForClass, DocumentType} from '@typegoose/typegoose';
+import {
+  mongoose,
+  prop,
+  getModelForClass,
+  DocumentType,
+} from '@typegoose/typegoose';
 import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
 import { ObjectType, Field, ID } from 'type-graphql';
 import { CharCreationProgress } from './CharCreationProgress';
 import { CharacterRace } from './CharacterRace';
 import { PhysicalStats } from './PhysicalStats';
-import { UserModel, User} from '../users/User';
+import { UserModel, User } from '../users/User';
 import { Race } from '../races/Race';
 // import { CharacterClassModel } from '../characterClasses/CharacterClass';
 import { charCreationBaseLinks } from '../../utils/charCreationBaseLinks';
 import { CharClass } from './CharClass';
+import { CharacterClass } from '../characterClasses/CharacterClass';
 
 @ObjectType({ description: 'Base Character model' })
 export class Character extends TimeStamps {
@@ -41,10 +47,9 @@ export class Character extends TimeStamps {
   @prop()
   characterRace!: CharacterRace;
 
-  @Field(() => [CharClass], {description: 'Chosen classes for the character'})
-  @prop({nullable: true})
-  characterClass!: CharClass[] ;
-
+  @Field(() => [CharClass], { description: 'Chosen classes for the character' })
+  @prop({ nullable: true })
+  characterClass!: CharClass[];
 
   @Field(() => PhysicalStats, {
     description:
@@ -113,25 +118,58 @@ export class Character extends TimeStamps {
     return characterId;
   }
 
-  private async setProgress(nextLink: string) {
-    this.charCreationProgress.nextLink = nextLink;
-    const newLinks = this.charCreationProgress.links.map(link => link.to === nextLink ? {...link, active: true} : {...link})
-    this.charCreationProgress.links = newLinks;
-
-  }
-
-  // Refactor to non-static method later. Check if it works like this though.
-  public async chooseRace(this: DocumentType<Character>, user: DocumentType<User>, race: DocumentType<Race>) {
-    const session = await mongoose.startSession();
-    session.startTransaction();
-
+  private async setRace(race: DocumentType<Race>) {
     this.characterRace = {
       raceId: race._id,
       raceName: race.name,
     };
-    this.setProgress('/choose-class');
+    return this;
+  }
 
-    await user.updateCharacterLinks(this._id, race.name.toString(), '/choose-race', '/choose-class', session)
+  private async setProgress(nextLink: string) {
+    this.charCreationProgress.nextLink = nextLink;
+    const newLinks = this.charCreationProgress.links.map((link) =>
+      link.to === nextLink ? { ...link, active: true } : { ...link }
+    );
+    this.charCreationProgress.links = newLinks;
+  }
+
+  private async chooseFirstClass(characterClass: DocumentType<CharacterClass>) {
+    this.characterClass = [
+      {
+        classId: characterClass._id,
+        className: characterClass.name,
+        classLevel: 1,
+        isFavoured: false,
+      },
+    ];
+    // TODO - handle favoured class!
+
+    return this;
+  }
+
+  public async chooseRace(
+    this: DocumentType<Character>,
+    user: DocumentType<User>,
+    race: DocumentType<Race>
+  ) {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
+    this.setRace(race);
+    this.setProgress('/choose-class');
+    await user.updateCharacterLinks(
+      this._id,
+      {
+        key: 'race',
+        value: race.name.toString(),
+      },
+      {
+        currentLink: '/choose-race',
+        nextLink: '/choose-class',
+      },
+      session
+    );
     await this.save({ session });
 
     await session.commitTransaction();
@@ -139,38 +177,35 @@ export class Character extends TimeStamps {
     return this;
   }
 
+  public static async chooseClass(
+    this: DocumentType<Character>,
+    user: DocumentType<User>,
+    characterClass: DocumentType<CharacterClass>
+  ) {
+    const session = await mongoose.startSession();
+    session.startTransaction();
 
+    this.chooseFirstClass(characterClass);
 
+    this.setProgress('/choose-class');
+    await user.updateCharacterLinks(
+      this._id,
+      {
+        key: 'class',
+        value: characterClass.name.toString(),
+      },
+      {
+        currentLink: '/choose-class',
+        nextLink: '/abilities',
+      },
+      session
+    );
+    await this.save({ session });
 
-
-
-
-
-
-  // public static async chooseClass(userId: string, characterId: string, classId: string){
-  //   const session = await mongoose.startSession();
-  //   session.startTransaction();
-
-  //   //This block could probably be removed.
-  //   const user = await UserModel.findOne({ _id: userId }).session(session);
-  //   if (!user) {
-  //     throw new Error('User not found');
-  //   }
-  //   // This might be simplified as well
-  //   const character = await CharacterModel.findOne({
-  //     _id: characterId,
-  //     ownerId: userId,
-  //   }).session(session);
-
-  //   if (!character) throw new Error('Error. Character not found.');
-  //   const characterClass = await CharacterClassModel.findOne({ _id: classId }).session(session);
-  //   if (!characterClass) throw new Error('Error, Race not found.');
-
-  //   // const characterClass: CharacterClass = {
-  //   //   raceId: race._id,
-  //   //   raceName: race.name,
-  //   // };
-  // }
+    await session.commitTransaction();
+    session.endSession;
+    return this;
+  }
 }
 
 export const CharacterModel = getModelForClass(Character);
