@@ -185,7 +185,7 @@ type LinkControl {
 }
 
 type Mutation {
-  chooseClass: Character!
+  chooseClass(characterId: String!, classId: String!): Character!
   chooseRace(characterId: String!, raceId: String!): Character!
   createCharacter(characterData: CharacterInput!): Character!
   createUser(data: UserInput!): User!

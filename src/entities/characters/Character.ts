@@ -58,6 +58,15 @@ export class Character extends TimeStamps {
   @prop()
   physicalStats!: PhysicalStats;
 
+  public static async findCharacter(id: string, ownerId: string) {
+    const character = await CharacterModel.findOne({ _id: id, ownerId });
+    if (!character) {
+      throw new Error('Character not found');
+    }
+    return character;
+  
+  }
+
   public static async createCharacter(userId: string, characterName: string) {
     const session = await mongoose.startSession();
     session.startTransaction();
@@ -177,7 +186,7 @@ export class Character extends TimeStamps {
     return this;
   }
 
-  public static async chooseClass(
+  public async chooseClass(
     this: DocumentType<Character>,
     user: DocumentType<User>,
     characterClass: DocumentType<CharacterClass>

@@ -46,6 +46,15 @@ export class CharacterClass {
   @Field(() => [Level], { description: 'Level up chart for the class'})
   @prop({required: true})
   levels!: Level[]
+
+
+  public static async findCharacterClass(id: string){
+    const characterClass = await CharacterClassModel.findOne({ _id: id });
+    if (!characterClass) {
+      throw new Error('Class not found');
+    }
+    return characterClass;
+  }
 }
 
 export const CharacterClassModel = getModelForClass(CharacterClass);
