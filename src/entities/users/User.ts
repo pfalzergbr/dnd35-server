@@ -2,6 +2,7 @@ import { ObjectType, Field, ID } from 'type-graphql';
 import { prop, getModelForClass, mongoose } from '@typegoose/typegoose';
 import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
 import { CharacterLink } from './CharacterLink'
+import { ClientSession } from 'mongoose';
 
 @ObjectType({ description: 'User model' })
 export class User extends TimeStamps {
@@ -28,6 +29,23 @@ export class User extends TimeStamps {
     }
     return user;
   }
+
+  public async updateCharacterLinks(race: string, currentLink: string, nextLink: string, session: ClientSession) {
+    const updatedCharacters = this.characters.map((character) => {
+      if (this._id === character.characterId) {
+        character.race = race;
+        if (character.nextLink === currentLink) {
+          character.nextLink = nextLink;
+        }
+      }
+      return character;
+    });
+
+    await UserModel.updateOne({_id: this._id}, { characters: updatedCharacters}).session(session);
+    return this;
+  }
+
+
 }
 
 export const UserModel = getModelForClass(User);

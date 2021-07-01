@@ -1,9 +1,8 @@
-// import { mongoose } from '@typegoose/typegoose';
 import { Mutation, Query, Resolver, Ctx, Arg } from 'type-graphql';
 import { Character, CharacterModel } from '../entities/characters/Character';
 import { CharacterInput } from '../entities/characters/character-inputs';
-// import { CharacterRace } from '../entities/characters/CharacterRace';
-// import { RaceModel } from '../entities/races/Race';
+import { RaceModel } from '../entities/races/Race';
+import { UserModel } from '../entities/users/User';
 import { ApolloContext } from '../typings/context';
 
 @Resolver()
@@ -59,28 +58,36 @@ export class CharacterResolver {
       throw new Error('Unauthorized. Please log in.');
     }
     try {
-      const character = await CharacterModel.chooseRace(req.user.id, characterId, raceId);
+      const user = await UserModel.findUser(req.user.id);
+      const race = await RaceModel.findRace(raceId);
+      const character = await CharacterModel.findOne({
+        _id: characterId,
+        ownerId: req.user.id,
+      })
+
+      if (!character) throw new Error('Error. Character not found.');
+
+      await character.chooseRace(user, race);
       return character;  
     } catch (error) {
       throw new Error(error);
-      // console.log(error)
     }
   }
   
   @Mutation(() => Character)
   async chooseClass(
-    @Arg('characterId') characterId: string,
-    @Arg('classId') classId: string,
-    @Ctx() { req }: ApolloContext
+    // @Arg('characterId') characterId: string,
+    // @Arg('classId') classId: string,
+    // @Ctx() { req }: ApolloContext
   ) {
-    if (!req.user) {
-      throw new Error('Unauthorized. Please log in.');
-    }
-    try {
-      const character = await CharacterModel
-    } catch (error) {
-      throw new Error(error);
-    }
+    // if (!req.user) {
+    //   throw new Error('Unauthorized. Please log in.');
+    // }
+    // try {
+    //   // const character = await CharacterModel
+    // } catch (error) {
+    //   throw new Error(error);
+    // }
   }
 
 }

@@ -48,6 +48,14 @@ export class Race {
   })
   @prop({ required: true })
   languages!: RaceLanguage;
+
+  public static async findRace(id: string){
+    const race = await RaceModel.findOne({ _id: id });
+    if (!race) {
+      throw new Error('Race not found');
+    }
+    return race;
+  }
 }
 
 export const RaceModel = getModelForClass(Race);

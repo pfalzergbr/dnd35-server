@@ -1,12 +1,12 @@
-import { mongoose, prop, getModelForClass} from '@typegoose/typegoose';
+import { mongoose, prop, getModelForClass, DocumentType} from '@typegoose/typegoose';
 import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
 import { ObjectType, Field, ID } from 'type-graphql';
 import { CharCreationProgress } from './CharCreationProgress';
 import { CharacterRace } from './CharacterRace';
 import { PhysicalStats } from './PhysicalStats';
-import { UserModel} from '../users/User';
-import { RaceModel } from '../races/Race';
-import { CharacterClassModel } from '../characterClasses/CharacterClass';
+import { UserModel, User} from '../users/User';
+import { Race } from '../races/Race';
+// import { CharacterClassModel } from '../characterClasses/CharacterClass';
 import { charCreationBaseLinks } from '../../utils/charCreationBaseLinks';
 import { CharClass } from './CharClass';
 
@@ -113,80 +113,64 @@ export class Character extends TimeStamps {
     return characterId;
   }
 
+  private async setProgress(nextLink: string) {
+    this.charCreationProgress.nextLink = nextLink;
+    const newLinks = this.charCreationProgress.links.map(link => link.to === nextLink ? {...link, active: true} : {...link})
+    this.charCreationProgress.links = newLinks;
+
+  }
+
   // Refactor to non-static method later. Check if it works like this though.
-  public static async chooseRace(userId: string, characterId: string, raceId: string) {
+  public async chooseRace(this: DocumentType<Character>, user: DocumentType<User>, race: DocumentType<Race>) {
     const session = await mongoose.startSession();
     session.startTransaction();
-
-    //This block could probably be removed.
-    const user = await UserModel.findOne({ _id: userId }).session(session);
-    if (!user) {
-      throw new Error('User not found');
-    }
-    // This might be simplified as well
-    const character = await CharacterModel.findOne({
-      _id: characterId,
-      ownerId: userId,
-    }).session(session);
     
-    if (!character) throw new Error('Error. Character not found.');
-    const race = await RaceModel.findOne({ _id: raceId }).session(session);
-    if (!race) throw new Error('Error, Race not found.');
-
-    const characterRace: CharacterRace = {
+    this.characterRace = {
       raceId: race._id,
       raceName: race.name,
-    };
+    };;
+    this.setProgress('/choose-class');
 
-    character.characterRace = characterRace;
-    character.charCreationProgress.nextLink = '/choose-class';
-    const newLinks = character.charCreationProgress.links.map(link => link.to === '/choose-class' ? {...link, active: true} : {...link})
-    character.charCreationProgress.links = newLinks;
-    //This is hacky, please improve
-
-    const updatedCharacters = user.characters.map((character) => {
-      if (characterId === character.characterId.toString()) {
-        character.race = race.name;
-        if (character.nextLink === '/choose-race') {
-          character.nextLink = '/choose-class';
-        }
-      }
-      return character;
-    });
-    //This could be removed
-    user.characters = updatedCharacters;
-    await UserModel.updateOne({_id: user._id}, { characters: updatedCharacters}).session(session);
-    await character.save({ session });
+    await user.updateCharacterLinks(race.name.toString(), '/choose-race', '/choose-class', session)
+    await this.save({ session });
 
     await session.commitTransaction();
     session.endSession;
-    return character;
+    return this;
   }
 
-  public static async chooseClass(userId: string, characterId: string, classId: string){
-    const session = await mongoose.startSession();
-    session.startTransaction();
 
-    //This block could probably be removed.
-    const user = await UserModel.findOne({ _id: userId }).session(session);
-    if (!user) {
-      throw new Error('User not found');
-    }
-    // This might be simplified as well
-    const character = await CharacterModel.findOne({
-      _id: characterId,
-      ownerId: userId,
-    }).session(session);
 
-    if (!character) throw new Error('Error. Character not found.');
-    const characterClass = await CharacterClassModel.findOne({ _id: classId }).session(session);
-    if (!characterClass) throw new Error('Error, Race not found.');
 
-    // const characterClass: CharacterClass = {
-    //   raceId: race._id,
-    //   raceName: race.name,
-    // };
-  }
+
+
+
+
+
+  // public static async chooseClass(userId: string, characterId: string, classId: string){
+  //   const session = await mongoose.startSession();
+  //   session.startTransaction();
+
+  //   //This block could probably be removed.
+  //   const user = await UserModel.findOne({ _id: userId }).session(session);
+  //   if (!user) {
+  //     throw new Error('User not found');
+  //   }
+  //   // This might be simplified as well
+  //   const character = await CharacterModel.findOne({
+  //     _id: characterId,
+  //     ownerId: userId,
+  //   }).session(session);
+
+  //   if (!character) throw new Error('Error. Character not found.');
+  //   const characterClass = await CharacterClassModel.findOne({ _id: classId }).session(session);
+  //   if (!characterClass) throw new Error('Error, Race not found.');
+
+  //   // const characterClass: CharacterClass = {
+  //   //   raceId: race._id,
+  //   //   raceName: race.name,
+  //   // };
+  // }
 }
 
 export const CharacterModel = getModelForClass(Character);

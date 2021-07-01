@@ -11,6 +11,20 @@ type AbilityModifier {
   value: Float!
 }
 
+type CharClass {
+  """Reference to the character class entity"""
+  classId: ID!
+
+  """Level of the current class"""
+  classLevel: String!
+
+  """Name of the chosen class"""
+  className: String!
+
+  """Is this a favoured class for the character?"""
+  isFavoured: Boolean!
+}
+
 """Current progress of character generation flow"""
 type CharCreationProgress {
   links: [LinkControl!]!
@@ -23,6 +37,9 @@ type Character {
   Character creation progress, and available links for navigating the flow
   """
   charCreationProgress: CharCreationProgress!
+
+  """Chosen classes for the character"""
+  characterClass: [CharClass!]!
 
   """Quick reference for the character race"""
   characterRace: CharacterRace!
@@ -168,6 +185,7 @@ type LinkControl {
 }
 
 type Mutation {
+  chooseClass: Character!
   chooseRace(characterId: String!, raceId: String!): Character!
   createCharacter(characterData: CharacterInput!): Character!
   createUser(data: UserInput!): User!
