@@ -1,6 +1,7 @@
 import { ObjectType, Field } from 'type-graphql';
-import { prop } from '@typegoose/typegoose';
+import { prop, modelOptions } from '@typegoose/typegoose';
 
+@modelOptions({ options: {allowMixed: 0}})
 @ObjectType({ description: 'Information about the skills of this class' })
 export class SkillModifiers {
   @Field(() => [String], { description: 'List of class skills' })

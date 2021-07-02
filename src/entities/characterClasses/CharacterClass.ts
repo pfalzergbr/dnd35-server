@@ -4,7 +4,7 @@ import { SkillModifiers } from './SkillModifiers';
 import { Level } from './Level';
 
 
-@modelOptions({ schemaOptions: {collection: 'characterClasses'}})
+@modelOptions({ schemaOptions: {collection: 'characterClasses'}, options: {allowMixed: 0}})
 @ObjectType({ description: 'Character Class model' })
 export class CharacterClass {
   @Field(() => ID, { name: 'id' })

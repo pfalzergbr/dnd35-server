@@ -1,6 +1,7 @@
-import { mongoose, prop } from '@typegoose/typegoose';
+import { mongoose, prop, modelOptions } from '@typegoose/typegoose';
 import { Field, ID, ObjectType } from 'type-graphql';
 
+@modelOptions({ options: {allowMixed: 0}})
 @ObjectType({description: 'Quick reference for the character race'})
 export class CharacterRace {
   @Field(() => ID, { description: 'ObjectId of the character race' })

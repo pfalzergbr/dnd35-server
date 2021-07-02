@@ -1,6 +1,7 @@
 import {
   mongoose,
   prop,
+  modelOptions,
   getModelForClass,
   DocumentType,
 } from '@typegoose/typegoose';
@@ -16,6 +17,7 @@ import { charCreationBaseLinks } from '../../utils/charCreationBaseLinks';
 import { CharClass } from './CharClass';
 import { CharacterClass } from '../characterClasses/CharacterClass';
 
+@modelOptions({ options: {allowMixed: 0}})
 @ObjectType({ description: 'Base Character model' })
 export class Character extends TimeStamps {
   @Field(() => ID, { name: 'id' })

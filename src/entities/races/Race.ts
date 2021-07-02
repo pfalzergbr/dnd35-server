@@ -1,10 +1,11 @@
-import { mongoose, prop, getModelForClass } from '@typegoose/typegoose';
+import { mongoose, prop, getModelForClass, modelOptions } from '@typegoose/typegoose';
 import { ObjectType, Field, ID } from 'type-graphql';
 import { RaceLanguage } from './RaceLanguages';
 import { CheckModifier } from './CheckModifier';
 import { RaceModifiers } from './RaceModifiers';
 import { SpecialTrait } from './SpecialTrait';
 
+@modelOptions({ options: {allowMixed: 0}})
 @ObjectType()
 export class Race {
   @Field(() => ID, { name: 'id' })

@@ -1,8 +1,8 @@
-import { prop } from "@typegoose/typegoose";
+import { prop, modelOptions } from "@typegoose/typegoose";
 import { ObjectType, Field } from "type-graphql";
 
 
-
+@modelOptions({ options: {allowMixed: 0}})
 @ObjectType()
 export class RaceLanguage {
   @Field(() => [String], {description: 'Base languages automatically spoken by all characters from this race'})

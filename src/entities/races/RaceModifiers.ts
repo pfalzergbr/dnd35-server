@@ -1,6 +1,7 @@
-import { mongoose, prop } from '@typegoose/typegoose';
+import { mongoose, prop, modelOptions } from '@typegoose/typegoose';
 import { ObjectType, Field, ID } from 'type-graphql';
 
+@modelOptions({ options: {allowMixed: 0}})
 @ObjectType()
 export class AbilityModifier {
   @Field({ description: 'Name of the ability to modify' })
@@ -11,7 +12,7 @@ export class AbilityModifier {
   @prop()
   value!: Number;
 }
-
+@modelOptions({ options: {allowMixed: 0}})
 @ObjectType()
 export class SkillModifier {
   @Field({ description: 'Extra skill points on the first level.' })
@@ -23,6 +24,7 @@ export class SkillModifier {
   extraLevelSkillPoint!: Number
 }
 
+@modelOptions({ options: {allowMixed: 0}})
 @ObjectType()
 export class FeatModifier {
   @Field({ description: 'Name of the extra feat' })
@@ -34,6 +36,7 @@ export class FeatModifier {
   featId!: mongoose.Types.ObjectId
 }
 
+@modelOptions({ options: {allowMixed: 0}})
 @ObjectType()
 export class RaceModifiers {
   @Field(() => [AbilityModifier], { description: 'List of ability modifiers', nullable: true })

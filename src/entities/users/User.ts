@@ -1,9 +1,10 @@
 import { ObjectType, Field, ID } from 'type-graphql';
-import { prop, getModelForClass, mongoose } from '@typegoose/typegoose';
+import { prop, getModelForClass, mongoose, modelOptions } from '@typegoose/typegoose';
 import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
 import { CharacterLink } from './CharacterLink';
 import { ClientSession } from 'mongoose';
 
+@modelOptions({ options: {allowMixed: 0}})
 @ObjectType({ description: 'User model' })
 export class User extends TimeStamps {
   @Field(() => ID, { name: 'id' })
