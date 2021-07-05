@@ -198,7 +198,7 @@ export class Character extends TimeStamps {
 
     this.chooseFirstClass(characterClass);
 
-    this.setProgress('/choose-class');
+    this.setProgress('/abilities');
     await user.updateCharacterLinks(
       this._id,
       {
