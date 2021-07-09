@@ -1,17 +1,6 @@
 import { prop, modelOptions } from '@typegoose/typegoose';
 import { ObjectType, Field } from 'type-graphql';
-
-@modelOptions({ options: { allowMixed: 0 } })
-@ObjectType()
-export class StatModifier {
-  @Field()
-  @prop()
-  modifierType!: String;
-
-  @Field()
-  @prop()
-  modifierValue!: Number;
-}
+import { StatModifier } from './StatModifier';
 
 @modelOptions({ options: { allowMixed: 0 } })
 @ObjectType()
