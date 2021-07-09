@@ -3,6 +3,15 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+input AbilityInput {
+  charisma: Float!
+  constitution: Float!
+  dexterity: Float!
+  intelligence: Float!
+  strength: Float!
+  wisdom: Float!
+}
+
 type AbilityModifier {
   """Name of the ability to modify"""
   abilityName: String!
@@ -38,6 +47,9 @@ type Character {
   """
   charCreationProgress: CharCreationProgress!
 
+  """Ability stats of the character"""
+  characterAbilities: CharacterAbilities!
+
   """Chosen classes for the character"""
   characterClass: [CharClass!]!
 
@@ -54,6 +66,37 @@ type Character {
 
   """Physical, computed stats of the character. AC, Init, Health and Speed"""
   physicalStats: PhysicalStats!
+}
+
+type CharacterAbilities {
+  """The characters Charisma related values"""
+  charisma: CharacterAbility!
+
+  """The characters Constitution related values"""
+  constitution: CharacterAbility!
+
+  """The characters Dexterity related values"""
+  dexterity: CharacterAbility!
+
+  """The characters Intellignce related values"""
+  intelligence: CharacterAbility!
+
+  """The characters Strength related values"""
+  strength: CharacterAbility!
+
+  """The characters Wisdom related values"""
+  wisdom: CharacterAbility!
+}
+
+type CharacterAbility {
+  """Ability score for this particular ability"""
+  baseValue: Float!
+
+  """Ability modifier for rolls, coming from this ability"""
+  modifier: Float!
+
+  """Modifiers effecting this ability"""
+  statModifiers: [StatModifier!]!
 }
 
 """Character Class model"""
@@ -190,6 +233,7 @@ type Mutation {
   createCharacter(characterData: CharacterInput!): Character!
   createUser(data: UserInput!): User!
   deleteCharacter(id: String!): String!
+  setInitialAbilities(abilityValues: AbilityInput!, characterId: String!): Character!
 }
 
 type PhysicalStats {

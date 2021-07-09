@@ -16,8 +16,12 @@ import { Race } from '../races/Race';
 import { charCreationBaseLinks } from '../../utils/charCreationBaseLinks';
 import { CharClass } from './CharClass';
 import { CharacterClass } from '../characterClasses/CharacterClass';
+import { CharacterAbilities } from './CharacterAbilities';
+import { CharacterAbility } from './CharacterAbility';
+import { AbilityInput } from './character-inputs';
 
-@modelOptions({ options: {allowMixed: 0}})
+
+@modelOptions({ options: { allowMixed: 0 } })
 @ObjectType({ description: 'Base Character model' })
 export class Character extends TimeStamps {
   @Field(() => ID, { name: 'id' })
@@ -53,6 +57,11 @@ export class Character extends TimeStamps {
   @prop({ nullable: true })
   characterClass!: CharClass[];
 
+  @Field(() => CharacterAbilities, { description: 'Ability stats of the character'})
+  //flip this once functionality is complete
+  @prop({nullable: true})
+  characterAbilities!:CharacterAbilities;
+
   @Field(() => PhysicalStats, {
     description:
       'Physical, computed stats of the character. AC, Init, Health and Speed',
@@ -66,7 +75,6 @@ export class Character extends TimeStamps {
       throw new Error('Character not found');
     }
     return character;
-  
   }
 
   public static async createCharacter(userId: string, characterName: string) {
@@ -88,6 +96,8 @@ export class Character extends TimeStamps {
         links: charCreationBaseLinks,
       },
     });
+
+    character.initializeAbilities();
     const characterLink = {
       characterId: character._id,
       name: characterName,
@@ -129,7 +139,7 @@ export class Character extends TimeStamps {
     return characterId;
   }
 
-  private async setRace(race: DocumentType<Race>) {
+  private setRace(race: DocumentType<Race>) {
     this.characterRace = {
       raceId: race._id,
       raceName: race.name,
@@ -137,7 +147,37 @@ export class Character extends TimeStamps {
     return this;
   }
 
-  private async setProgress(nextLink: string) {
+  private initializeAbilities() {
+    const baseStats: CharacterAbility = {
+      baseValue: 0,
+      modifier: 0,
+      statModifiers: []
+    }
+
+    this.characterAbilities = {
+      strength: baseStats,
+      dexterity: baseStats,
+      constitution: baseStats,
+      intelligence: baseStats,
+      charisma: baseStats,
+      wisdom: baseStats,
+    }
+
+  }
+
+  // Flip this private and abstract away once working
+  public setAbilities(abilityValues: AbilityInput) {
+    const {strength, dexterity, constitution, intelligence, charisma, wisdom } = abilityValues 
+    
+    this.characterAbilities.strength.baseValue = strength
+    this.characterAbilities.dexterity.baseValue = dexterity
+    this.characterAbilities.constitution.baseValue = constitution
+    this.characterAbilities.intelligence.baseValue = intelligence
+    this.characterAbilities.charisma.baseValue = charisma
+    this.characterAbilities.wisdom.baseValue = wisdom
+  }
+
+  private setProgress(nextLink: string) {
     this.charCreationProgress.nextLink = nextLink;
     const newLinks = this.charCreationProgress.links.map((link) =>
       link.to === nextLink ? { ...link, active: true } : { ...link }
@@ -145,7 +185,7 @@ export class Character extends TimeStamps {
     this.charCreationProgress.links = newLinks;
   }
 
-  private async chooseFirstClass(characterClass: DocumentType<CharacterClass>) {
+  private chooseFirstClass(characterClass: DocumentType<CharacterClass>) {
     this.characterClass = [
       {
         classId: characterClass._id,

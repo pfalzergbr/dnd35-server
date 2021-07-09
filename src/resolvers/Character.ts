@@ -1,7 +1,10 @@
 import { Mutation, Query, Resolver, Ctx, Arg } from 'type-graphql';
 import { CharacterClassModel } from '../entities/characterClasses/CharacterClass';
 import { Character, CharacterModel } from '../entities/characters/Character';
-import { CharacterInput } from '../entities/characters/character-inputs';
+import {
+  AbilityInput,
+  CharacterInput,
+} from '../entities/characters/character-inputs';
 import { RaceModel } from '../entities/races/Race';
 import { UserModel } from '../entities/users/User';
 import { ApolloContext } from '../typings/context';
@@ -9,15 +12,12 @@ import { ApolloContext } from '../typings/context';
 @Resolver()
 export class CharacterResolver {
   @Query(() => Character)
-  async getCharacterById(
-    @Arg('id') id : string,
-    @Ctx() { req }: ApolloContext
-  ) {
+  async getCharacterById(@Arg('id') id: string, @Ctx() { req }: ApolloContext) {
     if (!req.user) {
       throw new Error('Unauthorized. Please log in to create a character');
     }
-    const character = await CharacterModel.findCharacter(id, req.user.id)
-    return character
+    const character = await CharacterModel.findCharacter(id, req.user.id);
+    return character;
   }
 
   @Mutation(() => Character)
@@ -29,10 +29,13 @@ export class CharacterResolver {
       throw new Error('Unauthorized. Please log in to create a character');
     }
     try {
-      const character = await CharacterModel.createCharacter(req.user.id, name as string);
+      const character = await CharacterModel.createCharacter(
+        req.user.id,
+        name as string
+      );
       return character;
     } catch (error) {
-      throw new Error("Something went wrong. Please try again.")
+      throw new Error('Something went wrong. Please try again.');
     }
   }
 
@@ -45,7 +48,7 @@ export class CharacterResolver {
       CharacterModel.deleteCharacter(req.user.id, id);
       return id;
     } catch (error) {
-      throw new Error('Error. Character cannot be deleted. Please try again.')
+      throw new Error('Error. Character cannot be deleted. Please try again.');
     }
   }
 
@@ -54,22 +57,25 @@ export class CharacterResolver {
     @Arg('characterId') characterId: string,
     @Arg('raceId') raceId: string,
     @Ctx() { req }: ApolloContext
-  ){
+  ) {
     if (!req.user) {
       throw new Error('Unauthorized. Please log in.');
     }
     try {
       const user = await UserModel.findUser(req.user.id);
       const race = await RaceModel.findRace(raceId);
-      const character = await CharacterModel.findCharacter(characterId, req.user.id)
+      const character = await CharacterModel.findCharacter(
+        characterId,
+        req.user.id
+      );
 
       await character.chooseRace(user, race);
-      return character;  
+      return character;
     } catch (error) {
       throw new Error(error);
     }
   }
-  
+
   @Mutation(() => Character)
   async chooseClass(
     @Arg('characterId') characterId: string,
@@ -82,13 +88,34 @@ export class CharacterResolver {
     try {
       const user = await UserModel.findUser(req.user.id);
       const charClass = await CharacterClassModel.findCharacterClass(classId);
-      const character = await CharacterModel.findCharacter(characterId, req.user.id)
+      const character = await CharacterModel.findCharacter(
+        characterId,
+        req.user.id
+      );
 
-      await character.chooseClass(user, charClass)
-      return character;  
+      await character.chooseClass(user, charClass);
+      return character;
     } catch (error) {
       throw new Error(error);
     }
   }
 
+  @Mutation(() => Character)
+  async setInitialAbilities(
+    @Arg('characterId') characterId: string,
+    @Arg('abilityValues') abilityInput: AbilityInput,
+    @Ctx() { req }: ApolloContext
+  ) {
+    if (!req.user) {
+      throw new Error('Unauthorized. Please log in.');
+    }
+    const character = await CharacterModel.findCharacter(
+      characterId,
+      req.user.id
+    );
+    await character.setAbilities(abilityInput);
+    character.save();
+    return character;
+
+  }
 }
