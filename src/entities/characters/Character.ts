@@ -12,12 +12,10 @@ import { CharacterRace } from './CharacterRace';
 import { PhysicalStats } from './PhysicalStats';
 import { UserModel, User } from '../users/User';
 import { Race } from '../races/Race';
-// import { CharacterClassModel } from '../characterClasses/CharacterClass';
 import { charCreationBaseLinks } from '../../utils/charCreationBaseLinks';
 import { CharClass } from './CharClass';
 import { CharacterClass } from '../characterClasses/CharacterClass';
 import { CharacterAbilities } from './CharacterAbilities';
-import { CharacterAbility } from './CharacterAbility';
 import { AbilityInput } from './character-inputs';
 
 
@@ -148,33 +146,28 @@ export class Character extends TimeStamps {
   }
 
   private initializeAbilities() {
-    const baseStats: CharacterAbility = {
-      baseValue: 0,
-      modifier: 0,
-      statModifiers: []
+    const characterAbilities = {
+      strength: 0,
+      dexterity: 0,
+      constitution: 0,
+      intelligence: 0,
+      charisma: 0,
+      wisdom: 0,
     }
-
-    this.characterAbilities = {
-      strength: baseStats,
-      dexterity: baseStats,
-      constitution: baseStats,
-      intelligence: baseStats,
-      charisma: baseStats,
-      wisdom: baseStats,
-    }
-
+    this.characterAbilities.setAbilities(characterAbilities)
   }
 
   // Flip this private and abstract away once working
   public setAbilities(abilityValues: AbilityInput) {
-    const {strength, dexterity, constitution, intelligence, charisma, wisdom } = abilityValues 
+    this.characterAbilities.setAbilities(abilityValues)
+    // const {strength, dexterity, constitution, intelligence, charisma, wisdom } = abilityValues 
     
-    this.characterAbilities.strength.baseValue = strength
-    this.characterAbilities.dexterity.baseValue = dexterity
-    this.characterAbilities.constitution.baseValue = constitution
-    this.characterAbilities.intelligence.baseValue = intelligence
-    this.characterAbilities.charisma.baseValue = charisma
-    this.characterAbilities.wisdom.baseValue = wisdom
+    // this.characterAbilities.strength.baseValue = strength
+    // this.characterAbilities.dexterity.baseValue = dexterity
+    // this.characterAbilities.constitution.baseValue = constitution
+    // this.characterAbilities.intelligence.baseValue = intelligence
+    // this.characterAbilities.charisma.baseValue = charisma
+    // this.characterAbilities.wisdom.baseValue = wisdom
   }
 
   private setProgress(nextLink: string) {
