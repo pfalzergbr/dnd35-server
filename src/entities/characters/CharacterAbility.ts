@@ -17,6 +17,6 @@ export class CharacterAbility {
   @Field(() => [StatModifier], {
     description: 'Modifiers effecting this ability',
   })
-  @prop({ required: false, nullable: true })
+  @prop({ required: false, nullable: true, default: [] as StatModifier[] })
   statModifiers!: StatModifier[];
 }

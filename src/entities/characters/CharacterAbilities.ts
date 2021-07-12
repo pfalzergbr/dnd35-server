@@ -1,4 +1,4 @@
-import { prop } from '@typegoose/typegoose';
+import { prop, getModelForClass } from '@typegoose/typegoose';
 import { ObjectType, Field } from 'type-graphql';
 import { CharacterAbility } from './CharacterAbility';
 import { AbilityInput } from './character-inputs';
@@ -43,7 +43,7 @@ export class CharacterAbilities {
     ];
 
     this[abilityName].baseValue = value;
-    this[abilityName].modifier = modifierCalcArray[value]
+    this[abilityName].modifier = modifierCalcArray[value];
   }
 
   public setAbilities(abilityValues: AbilityInput) {
@@ -69,5 +69,9 @@ export class CharacterAbilities {
     this.intelligence.baseValue = constitution;
     this.charisma.baseValue = charisma;
     this.wisdom.baseValue = wisdom;
+
+    console.log(this);
   }
 }
+
+export const AbilitiesModel = getModelForClass(CharacterAbilities);

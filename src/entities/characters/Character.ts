@@ -15,7 +15,7 @@ import { Race } from '../races/Race';
 import { charCreationBaseLinks } from '../../utils/charCreationBaseLinks';
 import { CharClass } from './CharClass';
 import { CharacterClass } from '../characterClasses/CharacterClass';
-import { CharacterAbilities } from './CharacterAbilities';
+import { AbilitiesModel, CharacterAbilities } from './CharacterAbilities';
 import { AbilityInput } from './character-inputs';
 
 
@@ -96,6 +96,7 @@ export class Character extends TimeStamps {
     });
 
     character.initializeAbilities();
+    console.log('still running')
     const characterLink = {
       characterId: character._id,
       name: characterName,
@@ -146,28 +147,25 @@ export class Character extends TimeStamps {
   }
 
   private initializeAbilities() {
-    const characterAbilities = {
-      strength: 0,
-      dexterity: 0,
-      constitution: 0,
-      intelligence: 0,
-      charisma: 0,
-      wisdom: 0,
+    const baseAbility = {
+      baseValue: 0,
+      modifier: 0,
+      statModifiers: []
     }
-    this.characterAbilities.setAbilities(characterAbilities)
+
+    this.characterAbilities = new AbilitiesModel({
+      strength: baseAbility,
+      dexterity: baseAbility,
+      constitution: baseAbility,
+      intelligence: baseAbility,
+      charisma: baseAbility,
+      wisdom: baseAbility,
+    })
   }
 
   // Flip this private and abstract away once working
   public setAbilities(abilityValues: AbilityInput) {
     this.characterAbilities.setAbilities(abilityValues)
-    // const {strength, dexterity, constitution, intelligence, charisma, wisdom } = abilityValues 
-    
-    // this.characterAbilities.strength.baseValue = strength
-    // this.characterAbilities.dexterity.baseValue = dexterity
-    // this.characterAbilities.constitution.baseValue = constitution
-    // this.characterAbilities.intelligence.baseValue = intelligence
-    // this.characterAbilities.charisma.baseValue = charisma
-    // this.characterAbilities.wisdom.baseValue = wisdom
   }
 
   private setProgress(nextLink: string) {
