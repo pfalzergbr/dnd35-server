@@ -1,16 +1,17 @@
 import { mongoose, prop, modelOptions } from '@typegoose/typegoose';
 import { ObjectType, Field, ID } from 'type-graphql';
+import { AbilityType } from '../../typings/abilities';
 
 @modelOptions({ options: {allowMixed: 0}})
 @ObjectType()
 export class AbilityModifier {
   @Field({ description: 'Name of the ability to modify' })
   @prop()
-  abilityName!: String;
+  abilityName!: AbilityType;
   
   @Field({ description: 'Value the ability is modified by' })
   @prop()
-  value!: Number;
+  value!: number;
 }
 @modelOptions({ options: {allowMixed: 0}})
 @ObjectType()

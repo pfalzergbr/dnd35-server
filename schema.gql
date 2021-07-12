@@ -357,6 +357,7 @@ type Speed {
 }
 
 type StatModifier {
+  modifierSource: String!
   modifierType: String!
   modifierValue: Float!
 }

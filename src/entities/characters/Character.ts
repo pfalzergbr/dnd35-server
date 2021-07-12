@@ -67,6 +67,8 @@ export class Character extends TimeStamps {
   @prop()
   physicalStats!: PhysicalStats;
 
+  // Methods
+
   public static async findCharacter(id: string, ownerId: string) {
     const character = await CharacterModel.findOne({ _id: id, ownerId });
     if (!character) {
@@ -96,7 +98,6 @@ export class Character extends TimeStamps {
     });
 
     character.initializeAbilities();
-    console.log('still running')
     const characterLink = {
       characterId: character._id,
       name: characterName,
@@ -199,6 +200,7 @@ export class Character extends TimeStamps {
     session.startTransaction();
 
     this.setRace(race);
+    this.characterAbilities.setRacialAbilityModifiers(race)
     this.setProgress('/choose-class');
     await user.updateCharacterLinks(
       this._id,

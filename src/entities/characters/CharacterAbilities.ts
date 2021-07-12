@@ -1,15 +1,11 @@
-import { prop, getModelForClass } from '@typegoose/typegoose';
+import { prop, getModelForClass, DocumentType,} from '@typegoose/typegoose';
 import { ObjectType, Field } from 'type-graphql';
 import { CharacterAbility } from './CharacterAbility';
 import { AbilityInput } from './character-inputs';
-
-export type AbilityType =
-  | 'strength'
-  | 'dexterity'
-  | 'constitution'
-  | 'intelligence'
-  | 'charisma'
-  | 'wisdom';
+import { StatModifier } from './StatModifier';
+import { ModifierSource, ModifierType } from '../../typings/modifiers';
+import { Race } from '../races/Race'
+import { AbilityType } from '../../typings/abilities';
 
 @ObjectType()
 export class CharacterAbilities {
@@ -44,6 +40,32 @@ export class CharacterAbilities {
 
     this[abilityName].baseValue = value;
     this[abilityName].modifier = modifierCalcArray[value];
+  }
+
+  private resetAbilities(source: ModifierSource) {
+    this.strength.statModifiers = this.strength.statModifiers.filter(modifier => modifier.modifierSource !== source);
+    this.dexterity.statModifiers = this.dexterity.statModifiers.filter(modifier => modifier.modifierSource !== source);
+    this.constitution.statModifiers = this.constitution.statModifiers.filter(modifier => modifier.modifierSource !== source);
+    this.intelligence.statModifiers = this.intelligence.statModifiers.filter(modifier => modifier.modifierSource !== source);
+    this.charisma.statModifiers = this.charisma.statModifiers.filter(modifier => modifier.modifierSource !== source);
+    this.wisdom.statModifiers = this.wisdom.statModifiers.filter(modifier => modifier.modifierSource !== source);
+  }
+
+  private setModifier(target: AbilityType, source: ModifierSource, type: ModifierType, value: number ) {
+    const modifier: StatModifier = {
+      modifierSource: source,
+      modifierType: type,
+      modifierValue: value
+    }
+    this[target].statModifiers.push(modifier);
+  }
+
+  public setRacialAbilityModifiers(race: DocumentType<Race>){
+    const abilityModifiers = race.raceModifiers.abilityModifiers
+    this.resetAbilities('race')
+    if (abilityModifiers){
+      abilityModifiers.forEach(({abilityName, value}) => this.setModifier(abilityName, 'race', 'perm', value))
+    }
   }
 
   public setAbilities(abilityValues: AbilityInput) {
