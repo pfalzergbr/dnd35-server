@@ -1,4 +1,5 @@
 import { Mutation, Query, Resolver, Ctx, Arg } from 'type-graphql';
+import { mongoose } from '@typegoose/typegoose';
 import { CharacterClassModel } from '../entities/characterClasses/CharacterClass';
 import { Character, CharacterModel } from '../entities/characters/Character';
 import {
@@ -109,12 +110,18 @@ export class CharacterResolver {
     if (!req.user) {
       throw new Error('Unauthorized. Please log in.');
     }
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
+    const user = await UserModel.findUser(req.user.id);
     const character = await CharacterModel.findCharacter(
       characterId,
       req.user.id
     );
-    await character.setAbilities(abilityInput);
-    character.save();
+    await character.setBaseAbilities(abilityInput, user, session);
+    character.save({session});
+    await session.commitTransaction();
+    session.endSession;
     return character;
 
   }

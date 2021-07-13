@@ -5,6 +5,7 @@ import {
   getModelForClass,
   DocumentType,
 } from '@typegoose/typegoose';
+import { ClientSession } from 'mongoose';
 import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
 import { ObjectType, Field, ID } from 'type-graphql';
 import { CharCreationProgress } from './CharCreationProgress';
@@ -17,7 +18,6 @@ import { CharClass } from './CharClass';
 import { CharacterClass } from '../characterClasses/CharacterClass';
 import { AbilitiesModel, CharacterAbilities } from './CharacterAbilities';
 import { AbilityInput } from './character-inputs';
-
 
 @modelOptions({ options: { allowMixed: 0 } })
 @ObjectType({ description: 'Base Character model' })
@@ -55,10 +55,12 @@ export class Character extends TimeStamps {
   @prop({ nullable: true })
   characterClass!: CharClass[];
 
-  @Field(() => CharacterAbilities, { description: 'Ability stats of the character'})
+  @Field(() => CharacterAbilities, {
+    description: 'Ability stats of the character',
+  })
   //flip this once functionality is complete
-  @prop({nullable: true})
-  characterAbilities!:CharacterAbilities;
+  @prop({ nullable: true })
+  characterAbilities!: CharacterAbilities;
 
   @Field(() => PhysicalStats, {
     description:
@@ -151,8 +153,8 @@ export class Character extends TimeStamps {
     const baseAbility = {
       baseValue: 0,
       modifier: 0,
-      statModifiers: []
-    }
+      statModifiers: [],
+    };
 
     this.characterAbilities = new AbilitiesModel({
       strength: baseAbility,
@@ -161,12 +163,26 @@ export class Character extends TimeStamps {
       intelligence: baseAbility,
       charisma: baseAbility,
       wisdom: baseAbility,
-    })
+    });
   }
 
   // Flip this private and abstract away once working
-  public setAbilities(abilityValues: AbilityInput) {
-    this.characterAbilities.setAbilities(abilityValues)
+  public async setBaseAbilities(
+    abilityValues: AbilityInput,
+    user: DocumentType<User>,
+    session: ClientSession
+  ) {
+    this.characterAbilities.setAbilities(abilityValues);
+    this.setProgress('/skills');
+    await user.updateCharacterLinks(
+      this._id,
+      null,
+      {
+        currentLink: '/abilities',
+        nextLink: '/skills',
+      },
+      session
+    );
   }
 
   private setProgress(nextLink: string) {
@@ -200,7 +216,7 @@ export class Character extends TimeStamps {
     session.startTransaction();
 
     this.setRace(race);
-    this.characterAbilities.setRacialAbilityModifiers(race)
+    this.characterAbilities.setRacialAbilityModifiers(race);
     this.setProgress('/choose-class');
     await user.updateCharacterLinks(
       this._id,
