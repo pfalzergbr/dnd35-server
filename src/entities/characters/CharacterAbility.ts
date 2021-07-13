@@ -9,11 +9,17 @@ export class CharacterAbility {
   @Field({ description: 'Ability score for this particular ability' })
   @prop({ required: true })
   baseValue!: number;
+
+  @Field({ description: 'Final ability schore for this ability', nullable: true })
+  @prop({ required: false })
+  finalValue!: number;
+
   @Field({
     description: 'Ability modifier for rolls, coming from this ability',
   })
   @prop({ required: true })
   modifier!: number;
+
   @Field(() => [StatModifier], {
     description: 'Modifiers effecting this ability',
   })

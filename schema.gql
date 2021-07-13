@@ -92,6 +92,9 @@ type CharacterAbility {
   """Ability score for this particular ability"""
   baseValue: Float!
 
+  """Final ability schore for this ability"""
+  finalValue: Float
+
   """Ability modifier for rolls, coming from this ability"""
   modifier: Float!
 

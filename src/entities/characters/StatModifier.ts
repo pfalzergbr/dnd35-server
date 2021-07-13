@@ -15,5 +15,5 @@ export class StatModifier {
 
   @Field()
   @prop({required: true})
-  modifierValue!: Number;
+  modifierValue!: number;
 }

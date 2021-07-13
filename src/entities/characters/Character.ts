@@ -151,6 +151,7 @@ export class Character extends TimeStamps {
 
   private initializeAbilities() {
     const baseAbility = {
+      finalValue: 0,
       baseValue: 0,
       modifier: 0,
       statModifiers: [],
