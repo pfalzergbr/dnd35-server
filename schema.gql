@@ -81,6 +81,9 @@ type CharacterAbilities {
   """The characters Intellignce related values"""
   intelligence: CharacterAbility!
 
+  """Indicates if the ability points has been allocated"""
+  isAllocated: Boolean!
+
   """The characters Strength related values"""
   strength: CharacterAbility!
 

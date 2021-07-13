@@ -33,6 +33,13 @@ export class CharacterAbilities {
   @prop({ required: true })
   wisdom!: CharacterAbility;
 
+  @Field({ description: 'Indicates if the ability points has been allocated' })
+  @prop({ required: true, default: false })
+  isAllocated!: boolean;
+
+
+  // Setter for abilities. Sets the base value, 
+  // calculates the modifier, and final value
   private setAbilitiy(abilityName: AbilityType, value: number) {
     const modifierCalcArray = [
       0, -5, -4, -4, -3, -3, -2, -2, -1, -1, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5,
@@ -41,10 +48,11 @@ export class CharacterAbilities {
     this[abilityName].baseValue = value;
     this[abilityName].modifier = modifierCalcArray[value];
     this.calculateFinal(abilityName);
-
   }
 
-  private resetAbilities(source: ModifierSource) {
+  // Resets modifiers. This is useful, if the user changes a race, 
+  // and wants to clear existing modifiers before setting new ones.
+  private resetModifiers(source: ModifierSource) {
     this.strength.statModifiers = this.strength.statModifiers.filter(
       (modifier) => modifier.modifierSource !== source
     );
@@ -65,6 +73,7 @@ export class CharacterAbilities {
     );
   }
 
+  //Setting modifiers for abilities, like race and class. 
   private setModifier(
     target: AbilityType,
     source: ModifierSource,
@@ -79,6 +88,7 @@ export class CharacterAbilities {
     this[target].statModifiers.push(modifier);
   }
 
+  //Calculates final value of the ability, based on modifiers and base. 
   private calculateFinal(target: AbilityType) {
     const modifiers = this[target].statModifiers;
 
@@ -90,9 +100,11 @@ export class CharacterAbilities {
     this[target].finalValue = this[target].baseValue + bonus;
   }
 
+  // Public method to set Racial modifiers, abstracts away implementation details.
+  // Clears existing racial modifiers, to prevent stacking them, then sets new ones.
   public setRacialAbilityModifiers(race: DocumentType<Race>) {
     const abilityModifiers = race.raceModifiers.abilityModifiers;
-    this.resetAbilities('race');
+    this.resetModifiers('race');
     if (abilityModifiers) {
       abilityModifiers.forEach(({ abilityName, value }) => {
         this.setModifier(abilityName, 'race', 'perm', value),
@@ -100,7 +112,8 @@ export class CharacterAbilities {
       });
     }
   }
-
+  // Setting abilities on allocation. TODO - remove commented code if not needed, 
+  // mess attracts racoons. 
   public setAbilities(abilityValues: AbilityInput) {
     const {
       strength,
@@ -118,12 +131,14 @@ export class CharacterAbilities {
     this.setAbilitiy('charisma', charisma);
     this.setAbilitiy('wisdom', wisdom);
 
-    this.strength.baseValue = strength;
-    this.dexterity.baseValue = dexterity;
-    this.constitution.baseValue = constitution;
-    this.intelligence.baseValue = constitution;
-    this.charisma.baseValue = charisma;
-    this.wisdom.baseValue = wisdom;
+    // this.strength.baseValue = strength;
+    // this.dexterity.baseValue = dexterity;
+    // this.constitution.baseValue = constitution;
+    // this.intelligence.baseValue = constitution;
+    // this.charisma.baseValue = charisma;
+    // this.wisdom.baseValue = wisdom;
+
+    this.isAllocated = true;
   }
 }
 
