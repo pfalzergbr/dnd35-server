@@ -119,7 +119,7 @@ export class CharacterResolver {
       req.user.id
     );
     await character.setBaseAbilities(abilityInput, user, session);
-    character.save({session});
+    await character.save({session});
     await session.commitTransaction();
     session.endSession;
     return character;
